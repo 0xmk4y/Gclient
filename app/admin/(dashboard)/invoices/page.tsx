@@ -39,12 +39,14 @@ export default async function DemoPage() {
   const data = await getData()
 
   return (
-    <div className="flex flex-col items-end w-full p-3">
-      <DashboardNav />
-      
+    <div className="w-full">
+      <div className="flex justify-end w-full p-3">
+        <DashboardNav />
+      </div>
       <div className="container mx-auto py-10">
         <DataTable columns={columns} data={data} />
       </div>
     </div>
+    
   )
 }

@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-primary md:bg-inherit text-white md:text-black`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
             <div className="flex justify-end w-full">
