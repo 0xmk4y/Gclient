@@ -1,5 +1,8 @@
 import { Invoices, columns } from "./columns"
 import { DataTable } from "./data-table"
+import ThemeSwitcher from "@/components/ThemeSwitcher"
+import ProfileSideBar from "@/components/ProfileSideBar"
+import DashboardNav from "@/components/DashboardNav"
 
 
 async function getData(): Promise<Invoices[]> {
@@ -36,8 +39,12 @@ export default async function DemoPage() {
   const data = await getData()
 
   return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+    <div className="flex flex-col items-end w-full p-3">
+      <DashboardNav />
+      
+      <div className="container mx-auto py-10">
+        <DataTable columns={columns} data={data} />
+      </div>
     </div>
   )
 }

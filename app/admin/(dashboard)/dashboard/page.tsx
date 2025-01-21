@@ -1,7 +1,12 @@
-import React from 'react'
+import DashboardNav from "@/components/DashboardNav";
+import ProfileSideBar from "@/components/ProfileSideBar";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
+import React from "react";
 
-export default function page() {
+export default function Page() {
   return (
-    <div>page</div>
-  )
+    <div className="flex justify-end w-full p-3">
+      <DashboardNav />
+    </div>
+  );
 }
