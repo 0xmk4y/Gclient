@@ -97,7 +97,8 @@ export default async function page() {
       <div className="flex justify-end w-full p-3">
         <DashboardNav />
       </div>
-      <div className="container mx-auto py-10 w-full">
+      <div className="container mx-auto w-full">
+        <h3 className="font-bold mb-8">Invoices</h3>
         <div className="flex gap-8">
           <SearchBar placeholder="Search Invoice" />
             <Button className="h-10 w-[200px] text-white font-bold">
