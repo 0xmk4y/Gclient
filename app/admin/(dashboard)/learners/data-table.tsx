@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/table"
 
 import { Button } from "@/components/ui/button"
-import { Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react"
+import { Pencil, Eye, Trash2, ChevronLeft, ChevronRight } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -71,11 +71,11 @@ export function DataTable<TData, TValue>({
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                     ))}
-                    {/* <TableCell className="bg-gray-100">
-                      <Button variant="link" size="sm" className="p-1.5 bg-blue-50 hover:bg-blue-100">
-                        <Eye />
+                    <TableCell className="text-center">
+                      <Button variant="link" size="sm" className="p-1.5 bg-gray-50 hover:bg-gray-100">
+                        <Eye color="green"/>
                       </Button>
-                    </TableCell> */}
+                    </TableCell>
                     <TableCell className="text-center">
                       <Button variant="link" size="sm" className="p-1.5 bg-gray-50 hover:bg-gray-100">
                         <Pencil color="green"/>

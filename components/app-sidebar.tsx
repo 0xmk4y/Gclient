@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Scroll, GraduationCap,  Home, Flag, UsersRound, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -22,22 +22,22 @@ const items = [
   {
     title: "Invoices",
     url: "/admin/invoices",
-    icon: Inbox,
+    icon: Scroll,
   },
   {
     title: "Learners",
     url: "/admin/learners",
-    icon: Calendar,
+    icon: UsersRound,
   },
   {
     title: "Courses",
     url: "/admin/courses",
-    icon: Search,
+    icon: GraduationCap,
   },
   {
     title: "Report",
     url: "/admin/report",
-    icon: Settings,
+    icon: Flag,
   },
 ];
 
@@ -50,12 +50,12 @@ export function AppSidebar() {
             <Image src={"/logo-2.svg"} alt="logo" height={100} width={100} />
           </SidebarGroupLabel>
           <SidebarGroupContent className="">
-            <SidebarMenu className="mt-4">
+            <SidebarMenu className="mt-8">
               <div>
                 {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.title} className="mb-6">
                     <SidebarMenuButton asChild>
-                      <a href={item.url}>
+                      <a href={item.url} className="text-xl">
                         <item.icon />
                         <span>{item.title}</span>
                       </a>
@@ -66,11 +66,11 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <div className="mt-auto">
+        <div className="mt-auto mb-6">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#">
+                <a href="#" className="text-xl">
                   <Calendar />
                   <span>Settings</span>
                 </a>
@@ -78,7 +78,7 @@ export function AppSidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#">
+                <a href="#" className="text-xl">
                   <Calendar />
                   <span>Logout</span>
                 </a>

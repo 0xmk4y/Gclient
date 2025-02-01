@@ -32,7 +32,7 @@ export default function ProfileSideBar() {
                 alt="Profile"
                 width={50}
                 height={50}
-                className='rounded-full'
+                className='rounded-full w-10 h-10'
             />
             <p className='text-black'>{"John Doe"}</p>
             </Button>
