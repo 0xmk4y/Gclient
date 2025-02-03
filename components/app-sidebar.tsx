@@ -1,4 +1,4 @@
-import { Calendar, Scroll, GraduationCap,  Home, Flag, UsersRound, Settings } from "lucide-react";
+import { Calendar, Scroll, GraduationCap,  Home, Flag, UsersRound } from "lucide-react";
 
 import {
   Sidebar,
