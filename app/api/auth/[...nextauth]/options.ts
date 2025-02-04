@@ -13,12 +13,12 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text" },
+        email: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         const user = { id: "1", name: "User", email: "user@example.com" };
-        if (credentials?.username === "admin" && credentials?.password === "password") {
+        if (credentials?.email === "admin" && credentials?.password === "password") {
           return user;
         } else {
           return null;
