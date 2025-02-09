@@ -13,7 +13,7 @@ interface CourseProp{
 }
 export default function CourseCard({ logo, course, price, duration, instructor, learners}: CourseProp) {
   return (
-    <div className='w-full md:max-w-[270px] border shadow-md'>
+    <div className='w-full md:max-w-[300px] border shadow-md'>
         <Image 
             src={logo}
             alt="course"
