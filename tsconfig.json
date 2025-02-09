@@ -19,8 +19,19 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "target": "es6",
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/admin/(dashboard)/learners/create-learner/components"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/admin/(dashboard)/learners/create-learner/components",
+    "prisma/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
+
