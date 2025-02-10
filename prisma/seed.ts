@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-import { admins, users, courses, invoices } from "../dummy/db"; // Ensure correct path
+import bcrypt from "bcryptjs";
+import { admins, users, courses, invoices, learners } from "../dummy/db"; // Ensure correct path
 
 const prisma = new PrismaClient();
 const SALT_ROUNDS = 10;
@@ -31,6 +31,7 @@ async function main() {
         await prisma.user.createMany({ data: hashedUsers });
         await prisma.course.createMany({ data: courses });
         await prisma.invoice.createMany({ data: invoices });
+        await prisma.learner.createMany({ data: learners });
 
         console.log("Seeding completed!");
     } catch (error) {

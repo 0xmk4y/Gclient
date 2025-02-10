@@ -2,56 +2,29 @@ import DashboardNav from '@/components/DashboardNav'
 import React from 'react'
 import SearchBar from '@/components/SearchBar'
 import { Button } from '@/components/ui/button'
-
-import { DataTable } from './data-table'
 import { Leaner, columns } from './columns'
+import { Learner } from '@/types/types'
 import Table from './components/Table'
 
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
-async function getData(): Promise<Leaner[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      learner: "dkbj", 
-      course: "dd",
-      amount: 100,
-      date: "2021-10-10",
-      gender: "Male",
-    },
-    {
-      learner: "dkbj", 
-      course: "dd",
-      amount: 100,
-      date: "2021-10-10",
-      gender: "Male",
-    },
-    {
-      learner: "dkbj", 
-      course: "dd",
-      amount: 100,
-      date: "2021-10-10",
-      gender: "Male",
-    },
-    {
-      learner: "dkbj", 
-      course: "dd",
-      amount: 100,
-      date: "2021-10-10",
-      gender: "Male",
-    },
-    {
-      learner: "dkbj", 
-      course: "dd",
-      amount: 100,
-      date: "2021-10-10",
-      gender: "Male",
-    },
+const prisma = new PrismaClient();
+  
 
-  ]
+async function getData(): Promise<Learner[]> {
+  try{
+    const learners = await prisma.learner.findMany({});
+    console.log(learners);
+    return learners;
+  } catch (error) {
+    console.error("Error fetching learners:", error);
+    return [];
+  }
 }
 
 export default async function page() {
-  const data = await getData()
+  const learners = await getData()
   return (
     <div className="w-full px-3 md:px-8">
       <div className="flex justify-end w-full p-3">
@@ -65,7 +38,7 @@ export default async function page() {
               <a href="/admin/learners/create-learner">Create Learner</a>
             </Button>
         </div>
-        <Table />
+        <Table learners={learners} />
         {/* <DataTable columns={columns} data={data} /> */}
       </div>
     </div>

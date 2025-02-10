@@ -21,21 +21,35 @@ export default function SignUpModal({ setActive }: ActiveProps) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            setError("Passwords do not match");
-            return;
-        }
+        setError('');
+    if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        return;
+    }
 
-        const response = await signIn('credentials', {
+    try {
+        const response = await fetch('/api/user/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
             email: formData.email,
             password: formData.password,
-            callbackUrl: '/user/dashboard',
-            redirect: true,
+        }),
         });
 
-        if (response) {
-            setError("Signup failed. Try again.");
+        if (!response.ok) {
+        const data = await response.json();
+        setError(data.message || 'Something went wrong');
+        return;
         }
+
+        // Handle successful signup (e.g., redirect to dashboard)
+        setActive('login');
+    } catch (error) {
+        setError('An unexpected error occurred');
+    }
     };
 
     return (

@@ -1,8 +1,6 @@
 import React from "react";
 import DashboardNav from "@/components/DashboardNav";
-import { Button } from "@/components/ui/button";
 import Form from "./components/form";
-import { User2, Mail, GraduationCap, MapPin, Phone, UsersRound, ChevronRight } from "lucide-react";
 
 export default function page() {
   return (

@@ -65,3 +65,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 If you have any questions or suggestions, please contact [your name] at [your email].
+
+
+npx prisma migrate dev --name add_new_table     #add new table
+npx prisma migrate reset                         # seed new changes
+npx prisma db pull                              #pull table to schema

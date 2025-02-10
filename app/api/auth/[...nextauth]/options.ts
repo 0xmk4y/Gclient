@@ -13,31 +13,14 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
+        email: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        try {
-          const response = await fetch("https://tmp-se-project.azurewebsites.net/api/user/auth/signup", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
-          });
-
-          if (response.ok) {
-            const user = await response.json();
-            console.log("User signed up successfully:", user);
-            return user;
-          } else {
-            return null;
-          }
-        } catch (error) {
-          console.error("Error during sign-up:", error);
+        const user = { id: "1", name: "User", email: "user@example.com" };
+        if (credentials?.email === "admin" && credentials?.password === "password") {
+          return user;
+        } else {
           return null;
         }
       },

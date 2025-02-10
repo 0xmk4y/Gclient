@@ -41,3 +41,20 @@ export type Invoice = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type Learner ={
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  program: string;
+  gender: string;
+  location: string;
+  phone: string;
+  disabled: boolean;
+  amount: number;
+  image: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
