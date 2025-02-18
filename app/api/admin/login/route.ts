@@ -1,7 +1,10 @@
+import { getIronSession } from "iron-session";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { SessionData } from "@/types/types";
 
 const prisma = new PrismaClient();
+
 
 export async function POST(req: Request) {
   console.log("Login API");
@@ -34,7 +37,17 @@ export async function POST(req: Request) {
       });
     }
 
-    return new Response(JSON.stringify({id: admin.id, first_name: admin.firstName, last_name: admin.lastName, email: admin.email, contact: admin.contact }), { status: 200 });
+    const res = new Response(JSON.stringify({id: admin.id, first_name: admin.firstName, last_name: admin.lastName, email: admin.email, contact: admin.contact }), { status: 200 });
+    const session = await getIronSession<SessionData>(req, res, {
+      password: process.env.SECRET_COOKIE_PASSWORD as string,
+      cookieName: "session",
+      ttl: 60 * 60 * 24, // 1 day
+    });
+
+    session.user = { email, role: "admin" };
+    await session.save();
+
+    return res;
 
   } catch (error) {
     return new Response(JSON.stringify({ message: "Internal server error" }), {

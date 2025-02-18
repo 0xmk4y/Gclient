@@ -61,11 +61,11 @@ export default function Login({ setActive }: ActiveProps) {
     <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
       <div className='border flex items-center px-2 py-2'>
         <Mail size={20} />
-        <input type="email" name="email" className='focus:outline-none px-2 w-full' placeholder='Email' required />
+        <input type="email" name="email" className='focus:outline-none px-2 w-full bg-transparent' placeholder='Email' required />
       </div>
       <div className='border flex items-center px-2 py-2'>
         <Lock size={20} />
-        <input type="password" name="password" className='focus:outline-none px-2 w-full' placeholder='Password' required />
+        <input type="password" name="password" className='focus:outline-none px-2 w-full bg-transparent' placeholder='Password' required />
       </div>
       <Link href="#" className='text-primary text-sm' onClick={() => setActive("forgot-pass")}>Forgot password?</Link>
       {

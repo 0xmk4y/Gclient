@@ -55,3 +55,11 @@ export type Learner = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+
+export type SessionData = {
+  user?: {
+    email: string;
+    role: "admin" | "user"
+  };
+}
