@@ -16,7 +16,7 @@ export default function page() {
         <div className="flex gap-8">
           <SearchBar placeholder="Search Invoice" />
             <Button className="h-10 w-[200px] text-white font-bold">
-              <a href="/admin/invoices/create-invoice">Create invoice</a>
+              <a href="/admin/courses/create-course">Create course</a>
             </Button>
         </div>
         <div>

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input" 
 import { User2, Mail, GraduationCap, MapPin, Phone, UsersRound, BadgeCent, Pencil, ChevronRight } from "lucide-react";
 import { useRouter } from 'next/navigation';
-import { Learner } from '@/types/types';
 
 export default function Form() {
   const router = useRouter();

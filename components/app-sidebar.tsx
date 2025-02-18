@@ -1,4 +1,7 @@
+"use client";
+import { usePathname } from 'next/navigation';
 import { Calendar, Scroll, GraduationCap,  Home, Flag, UsersRound } from "lucide-react";
+import Link from 'next/link';
 
 import {
   Sidebar,
@@ -42,6 +45,8 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar>
       <SidebarContent className="bg-primary text-white flex flex-col justify-between h-full">
@@ -54,12 +59,15 @@ export function AppSidebar() {
               <div>
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title} className="mb-6">
-                    <SidebarMenuButton asChild>
-                      <a href={item.url} className="text-xl">
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
+                  <SidebarMenuButton asChild className='hover:bg-gray-50 hover:text-black rounded-md'>
+                    <Link
+                    href={item.url}
+                    className={`text-xl ${pathname === item.url ? 'bg-white text-black ' : ''}`}
+                    >
+                    <item.icon />
+                    <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
               </div>

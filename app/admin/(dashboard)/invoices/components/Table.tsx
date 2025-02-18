@@ -9,44 +9,30 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { Invoice } from "@/types/types";
+import { PrismaClient } from "@prisma/client";
 
-export type Invoices = {
-  learner: string;
-  email: string;
-  amount: number;
-  date: string;
-  status: "Pending" | "Paid";
-};
+const prisma = new PrismaClient();
+
+
+async function getInvoices(): Promise<Invoice[]> {
+  try{
+    const Invoices = await prisma.invoice.findMany({
+      include: {
+        learner: true,
+      },
+    });
+    console.log(Invoices);
+    return Invoices;
+  } catch (error) {
+    console.error("Error fetching Invoices:", error);
+    return [];
+  }
+}
 
 export default async function Table() {
-  async function getData(): Promise<Invoices[]> {
-    // Fetch data from your API here.
-    return [
-      {
-        learner: "John Doe",
-        email: "john@example.com",
-        amount: 40000,
-        date: "2021-11-21",
-        status: "Paid",
-      },
-      {
-        learner: "John Doe",
-        email: "john@example.com",
-        amount: 40000,
-        date: "2021-11-21",
-        status: "Paid",
-      },
-      {
-        learner: "Jane Smith",
-        email: "jane@example.com",
-        amount: 35000,
-        date: "2021-10-10",
-        status: "Pending",
-      },
-    ];
-  }
 
-  const invoices = await getData();
+  const invoices = await getInvoices();
 
   return (
     <div className="flex flex-col w-full justify-between">
@@ -86,14 +72,14 @@ export default async function Table() {
                     className="rounded-full"
                   />
                   <div className="ps-3">
-                    <div className="">{invoice.learner}</div>
+                    <div className="">{invoice.learner.firstName + " " + invoice.learner.lastName}</div>
                   </div>
                 </th>
-                <td className="md:px-6 md:py-4 px-2">{invoice.email}</td>
+                <td className="md:px-6 md:py-4 px-2">{invoice.learner.email}</td>
                 <td className="md:px-6 md:py-4 px-2">
                   ${invoice.amount.toLocaleString()}
                 </td>
-                <td className="md:px-6 md:py-4 px-2">{invoice.date}</td>
+                <td className="md:px-6 md:py-4 px-2">{invoice.createdAt.toLocaleDateString()}</td>
                 <td
                   className={`max-w-[100px] text-center font-bold flex gap-1 items-center justify-center ${
                     invoice.status === "Paid" ? "bg-[#77C053] text-white" : "bg-[#dbdbdb] text-gray-600"

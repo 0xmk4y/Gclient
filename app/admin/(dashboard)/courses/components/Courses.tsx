@@ -1,49 +1,18 @@
 import React from 'react'
 import CourseCard from './CourseCard'
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 async function getcourse() {
-    return [
-        {
-            logo: "/engineering.svg",
-            course: "Introduction to Programming",
-            price: "99",
-            duration: "10 weeks",
-            instructor: "John Doe",
-            learners: "1500"
-        },
-        {
-            logo: "/engineering.svg",
-            course: "Advanced JavaScript",
-            price: "199",
-            duration: "8 weeks",
-            instructor: "Jane Smith",
-            learners: "1200"
-        },
-        {
-            logo: "/engineering.svg",
-            course: "React for Beginners",
-            price: "149",
-            duration: "6 weeks",
-            instructor: "Emily Johnson",
-            learners: "1800"
-        },
-        {
-            logo: "/engineering.svg",
-            course: "React for Beginners",
-            price: "149",
-            duration: "6 weeks",
-            instructor: "Emily Johnson",
-            learners: "1800"
-        },
-         {
-            logo: "/engineering.svg",
-            course: "React for Beginners",
-            price: "149",
-            duration: "6 weeks",
-            instructor: "Emily Johnson",
-            learners: "1800"
-        }
-    ];
+    try{
+        const learners = await prisma.course.findMany({});
+        console.log(learners);
+        return learners;
+      } catch (error) {
+        console.error("Error fetching learners:", error);
+        return [];
+      }
 }
 export default async function Courses() {
     const courses = await getcourse();
@@ -53,7 +22,7 @@ export default async function Courses() {
                 <CourseCard
                     key={index}
                     logo={course.logo}
-                    course={course.course}
+                    program={course.title}
                     price={course.price}
                     duration={course.duration}
                     instructor={course.instructor}

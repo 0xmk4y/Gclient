@@ -3,14 +3,12 @@ import { Mail, LockKeyhole, ChevronRight, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import SideBar from '../components/SideBar';
 
 export default function page() {
   return (
     <div className='flex'>
-        <div className='bg-primary h-screen hidden md:block'>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum, voluptates.</p>
-        </div>
-
+        <SideBar />
         <div className='flex flex-col md:w-full p-3'>
             <div className='flex flex-col mb-8'>
                 <Image 

@@ -7,12 +7,11 @@ import { Learner } from '@/types/types'
 import Table from './components/Table'
 
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
   
 
-async function getData(): Promise<Learner[]> {
+async function getLeaners(): Promise<Learner[]> {
   try{
     const learners = await prisma.learner.findMany({});
     console.log(learners);
@@ -24,7 +23,7 @@ async function getData(): Promise<Learner[]> {
 }
 
 export default async function page() {
-  const learners = await getData()
+  const learners = await getLeaners()
   return (
     <div className="w-full px-3 md:px-8">
       <div className="flex justify-end w-full p-3">

@@ -6,51 +6,47 @@ import google from '@/public/google.svg';
 import { Mail, Lock, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface ActiveProps {
     setActive: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function SignUpModal({ setActive }: ActiveProps) {
-    const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '' });
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const router = useRouter();
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = {
+        email: formData.get('email'),
+        password: formData.get('password'),
+        confirmPass: formData.get('confirmPassword'),
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setError('');
-    if (formData.password !== formData.confirmPassword) {
-        setError('Passwords do not match');
-        return;
-    }
-
-    try {
-        const response = await fetch('/api/user/signup', {
+    const response = await fetch('/api/user/signup', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-        }),
-        });
+        body: JSON.stringify(data),
+    });
 
-        if (!response.ok) {
-        const data = await response.json();
-        setError(data.message || 'Something went wrong');
-        return;
-        }
-
-        // Handle successful signup (e.g., redirect to dashboard)
-        setActive('login');
-    } catch (error) {
-        setError('An unexpected error occurred');
+    if (response.ok) {
+        // Handle successful login
+        console.log('Login successful');
+        router.push('/user/dashboard');
+    } else {
+        // Handle login error
+        const errorData = await response.json();
+        setError(errorData.message || 'Signup failed');
+        console.error('Signup failed');
     }
     };
+
+
 
     return (
         <div className='bg-white text-black border p-4 absolute z-50' style={{ top: '50px', right: '200px', width: '400px' }}>
@@ -61,18 +57,19 @@ export default function SignUpModal({ setActive }: ActiveProps) {
             </button>
             <p className='text-center my-4'>or</p>
             {error && <p className="text-red-500 text-center">{error}</p>}
+
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                 <div className='border flex items-center px-2 py-2 bg-gray-100 rounded-md'>
                     <Mail size={20} />
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} className='focus:outline-none px-2 w-full bg-transparent' placeholder='Email' required />
+                    <input type="email" name="email"  className='focus:outline-none px-2 w-full bg-transparent' placeholder='Email' required />
                 </div>
                 <div className='border flex items-center px-2 py-2 bg-gray-100 rounded-md'>
                     <Lock size={20} />
-                    <input type="password" name="password" value={formData.password} onChange={handleChange} className='focus:outline-none px-2 bg-transparent w-full' placeholder='Password' required />
+                    <input type="password" name="password" className='focus:outline-none px-2 bg-transparent w-full' placeholder='Password' required />
                 </div>
                 <div className='border flex items-center px-2 py-2 bg-gray-100 rounded-md'>
                     <Lock size={20} />
-                    <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className='focus:outline-none px-2 bg-transparent w-full' placeholder='Confirm password' required />
+                    <input type="password" name="confirmPassword" className='focus:outline-none px-2 bg-transparent w-full' placeholder='Confirm password' required />
                 </div>
                 <Button type="submit" className='font-bold'>
                     <span>Signup</span>

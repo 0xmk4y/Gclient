@@ -5,9 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import SideBar from '../components/SideBar';
+import { useState } from 'react';
 
 export default function Page() {
     const router = useRouter();
+    const [error, setError] = useState(''); 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -31,16 +34,15 @@ export default function Page() {
             router.push('/admin/dashboard');
         } else {
             // Handle login error
+            const errorData = await response.json();
+            setError(errorData.message);
             console.error('Login failed');
         }
     };
 
     return (
         <div className='flex'>
-            <div className='bg-primary h-screen hidden md:block'>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum, voluptates.</p>
-            </div>
-
+            <SideBar />
             <div className='flex flex-col w-full p-3'>
                 <div className='flex justify-between md:justify-end md:items-end w-full mb-[50px] space-x-3'>
                     <Link href={"/"} className='underline hidden md:block'>Need to create an account?</Link>
@@ -63,6 +65,11 @@ export default function Page() {
                             <LockKeyhole className='mx-1 dark:text-primary'/>
                             <input type="password" name='password' placeholder='Password' className='p-2 w-full focus:ring-0 outline-none bg-transparent text-black' />
                         </div>
+                        {error && (
+                            <div className='text-red-500 mb-4 text-center'>
+                                <p>{error}</p>
+                            </div>
+                        )}
                         <Link href={"/admin/reset-password-email"} className='text-primary'>Forgot Password</Link>
                         <div className='w-full'>
                             <Button type="submit" className='bg-primary text-white py-2 px-4 mt-4 w-full'>

@@ -3,26 +3,26 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { ChevronRight } from 'lucide-react'
 
-interface CourseProp{
+interface programProp{
     logo: string
-    course: string
-    price: string
+    program: string
+    price: number
     duration: string
     instructor: string
-    learners: string
+    learners: number
 }
-export default function CourseCard({ logo, course, price, duration, instructor, learners}: CourseProp) {
+export default function programCard({ logo, program, price, duration, instructor, learners}: programProp) {
   return (
     <div className='w-full md:max-w-[300px] border shadow-md'>
         <Image 
             src={logo}
-            alt="course"
+            alt="program"
             width={300}
             height={200}
             className='w-full'
         />
         <div className='px-4'>
-            <h3 className='my-4 font-bold text-[20px] h-[35px] leading-1'>{course}</h3>
+            <h3 className='my-4 font-bold text-[20px] h-[35px] leading-1'>{program}</h3>
             <div className='w-full'>
                 <div className='flex justify-between items-center border-b py-2'>
                     <p>Price:</p>

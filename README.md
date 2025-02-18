@@ -70,3 +70,36 @@ If you have any questions or suggestions, please contact [your name] at [your em
 npx prisma migrate dev --name add_new_table     #add new table
 npx prisma migrate reset                         # seed new changes
 npx prisma db pull                              #pull table to schema
+
+- invoices
+leaner
+email
+amount
+date
+status
+details
+
+- leaner
+first name
+last name
+program
+amount
+date
+gender
+email
+phone
+location
+disabled
+image
+description
+
+- Admin
+first name
+last name
+email
+password
+contact
+
+- User
+email
+password

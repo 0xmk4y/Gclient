@@ -1,11 +1,19 @@
 "use client";
 import React from 'react'
 import { User, Mail, ChevronRight, Lock, Phone } from 'lucide-react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import SideBar from '../components/SideBar';
+import { useRouter } from 'next/navigation';
+
 
 export default function Page() {
+    const router = useRouter();
+
+    const [error, setError] = useState('');
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -29,21 +37,21 @@ export default function Page() {
         if (response.ok) {
             // Handle successful registration
             console.log('Registration successful');
+            router.push('/admin/login');
         } else {
             // Handle registration error
+
+            const errorData = await response.json();
+            setError(errorData.message);
             console.error('Registration failed');
         }
     };
 
     return (
         <div className='flex'>
-            <div className='bg-primary h-screen hidden md:block'>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum, voluptates.</p>
-            </div>
-
+            <SideBar />
             <div className='flex flex-col w-full p-3'>
                 <div className='flex justify-between md:justify-end md:items-end w-full mb-[50px] space-x-3'>
-                    <Link href={"/"} className='underline hidden md:block'>Need to create an account ?</Link>
                     <Image 
                         src={'/logo.svg'}
                         alt='logo'
@@ -83,6 +91,11 @@ export default function Page() {
                             <Phone className='mx-1 dark:text-primary' />
                             <input type="text" name='contact' placeholder='Contact' className='p-2 w-full focus:ring-0 outline-none bg-transparent text-black' />
                         </div>
+                        {error && (
+                            <div className='text-red-500 mb-4 text-center'>
+                                <p>{error}</p>
+                            </div>
+                        )}
 
                         <div className='w-full'>
                             <Button type='submit' className='bg-primary text-white py-2 px-4 mt-4 w-full'>

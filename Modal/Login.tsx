@@ -7,12 +7,15 @@ import { Button } from '@/components/ui/button'
 import google from '@/public/google.svg'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react';
 
 interface ActiveProps {
   setActive: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Login({ setActive }: ActiveProps) {
+  const [error, setError] = useState('');
+
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,6 +33,8 @@ export default function Login({ setActive }: ActiveProps) {
     },
     body: JSON.stringify(data),
   });
+  
+  const res = await response.json();
 
   if (response.ok) {
     // Handle successful login
@@ -37,6 +42,7 @@ export default function Login({ setActive }: ActiveProps) {
     router.push('/user/dashboard');
   } else {
     // Handle login error
+    setError(res.message || 'Login failed');
     console.error('Login failed');
   }
   };
@@ -62,6 +68,9 @@ export default function Login({ setActive }: ActiveProps) {
         <input type="password" name="password" className='focus:outline-none px-2 w-full' placeholder='Password' required />
       </div>
       <Link href="#" className='text-primary text-sm' onClick={() => setActive("forgot-pass")}>Forgot password?</Link>
+      {
+        error && <p className='text-red-500 text-sm text-center'>{error}</p>
+      }
       <Button type="submit" className='font-bold'>
         <span>Login</span>
         <ChevronRight />

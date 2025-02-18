@@ -1,16 +1,5 @@
 import React from 'react'
 import DashboardNav from '@/components/DashboardNav'
-import { Button } from '@/components/ui/button'
-import { UserRound, CircleDollarSign, Phone, ChevronRight } from 'lucide-react'
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
 import Form from '../components/Form'
 
 export default function page() {

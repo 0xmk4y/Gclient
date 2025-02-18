@@ -1,18 +1,53 @@
+"use client";
 import React from 'react'
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
- 
-import { User2, Mail, GraduationCap, MapPin, Phone, Calendar,  UsersRound, BadgeCent, Pencil, ChevronRight } from "lucide-react";
+import { useRouter } from 'next/router';
+import { Calendar,  UsersRound, BadgeCent, Pencil, ChevronRight } from "lucide-react";
 
 
 export default function Form() {
+    // const router = useRouter();
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const data = {
+          firstName: formData.get('firstName'),
+          lastName: formData.get('lastName'),
+          email: formData.get('email'),
+          program: formData.get('program'),
+          gender: formData.get('gender'),
+          location: formData.get('location'),
+          phone: formData.get('phone'),
+          disabled: formData.get('disabled') === 'yes',
+          amount: parseFloat(formData.get('amount') as string),
+          image: formData.get('image'),
+          description: formData.get('description'),
+        };
+      
+        const response = await fetch('/api/create-invoice', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+      
+        if (response.ok) {
+          // Handle successful creation
+          console.log('Learner created successfully');
+          router.push('/admin/dashboard');
+        } else {
+          // Handle creation error
+          console.error('Failed to create learner');
+        }
+      };
   return (
     <div className="flex flex-col justify-center items-center w-full bg-gray-100 p-2 md:p-4 mt-10">
           <form action="" className="w-full flex flex-col gap-4">
             <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
                 <UsersRound  size={20}/>
-                <select name="course" id="course" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">
+                <select name="program" id="program" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">
                   <option value="" disabled selected className="text-gray-100">Select Learner</option>
                   <option value="course1">Yes</option>
                   <option value="course2">No</option>
@@ -31,7 +66,7 @@ export default function Form() {
             {/*  */}
             <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
                 <UsersRound  size={20}/>
-                <select name="course" id="course" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">
+                <select name="status" id="status" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">
                   <option value="" disabled selected className="text-gray-100">Status</option>
                   <option value="Paid">Yes</option>
                   <option value="Pending">No</option>

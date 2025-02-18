@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     console.log("Signup API");
-    const { firstName, lastName, email, password, confirmPass, contact } = await req.json();
+    const { email, password, confirmPass } = await req.json();
 
-    if (!firstName || !lastName || !email || !password || !confirmPass || !contact) {
+    if (!email || !password || !confirmPass ) {
         return new Response(
             JSON.stringify({ message: "All fields are required" }),
             { status: 400 }
@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     }
 
     try {
-        const existingUser = await prisma.admin.findUnique({
-            where: { email },
+        const existingUser = await prisma.user.findUnique({
+            where: { email: email },
         });
 
         if (existingUser) {
@@ -34,19 +34,17 @@ export async function POST(req: Request) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newAdmin = await prisma.user.create({
+        const newUser = await prisma.user.create({
             data: {
-                firstName,
-                lastName,
                 email,
                 password: hashedPassword,
-                contact,
             },
         });
 
-        return new Response(JSON.stringify({ message:"User created successfull", id: newAdmin.id, first_name: newAdmin.firstName, last_name: newAdmin.lastName, email: newAdmin.email, contact: newAdmin.contact }), { status: 201 });
+        return new Response(JSON.stringify({ message:"User created successfull", id: newUser.id, email: newUser.email }), { status: 201 });
 
     } catch (error) {
+        console.log(error);
         return new Response(JSON.stringify({ message: "Internal server error" }), {
             status: 500,
         });

@@ -1,14 +1,12 @@
 import React from 'react'
 import { Mail, LockKeyhole, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import SideBar from '../components/SideBar';
 
 export default function page() {
   return (
     <div className='flex'>
-        <div className='bg-primary h-screen hidden md:block'>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum, voluptates.</p>
-        </div>
-
+        <SideBar />
         <div className='flex flex-col w-full p-3'>
             <div className='flex justify-end items-end w-full mb-[50px] space-x-3'>
                 <Link href={"/"} className='underline'>Need to create an account ?</Link>
