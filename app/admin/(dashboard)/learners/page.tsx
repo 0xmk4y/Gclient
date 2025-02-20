@@ -1,12 +1,11 @@
 import DashboardNav from '@/components/DashboardNav'
 import React from 'react'
 import SearchBar from '@/components/SearchBar'
-import { Button } from '@/components/ui/button'
-import { Leaner, columns } from './columns'
 import { Learner } from '@/types/types'
 import Table from './components/Table'
 
 import { PrismaClient } from "@prisma/client";
+import Link from 'next/link'
 
 const prisma = new PrismaClient();
   
@@ -31,11 +30,9 @@ export default async function page() {
       </div>
       <div className="container mx-auto w-full">
         <h3 className="font-bold mb-8">Learners</h3>
-        <div className="flex gap-8">
+        <div className="flex gap-8 mb-8">
           <SearchBar placeholder="Search Leaner" />
-            <Button className="h-10 w-[200px] text-white font-bold">
-              <a href="/admin/learners/create-learner">Create Learner</a>
-            </Button>
+          <Link href="/admin/learners/create-learner" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create learner</Link>
         </div>
         <Table learners={learners} />
         {/* <DataTable columns={columns} data={data} /> */}

@@ -4,6 +4,7 @@ import { DataTable } from "./data-table"
 import DashboardNav from "@/components/DashboardNav"
 import { Button } from "@/components/ui/button"
 import Table from "./components/Table"
+import Link from "next/link"
 
 
 export default async function page() {
@@ -15,11 +16,9 @@ export default async function page() {
       </div>
       <div className="container mx-auto w-full">
         <h3 className="font-bold mb-8">Invoices</h3>
-        <div className="flex gap-8">
+        <div className="flex gap-8 mb-8">
           <SearchBar placeholder="Search Invoice" />
-            <Button className="h-10 w-[200px] text-white font-bold">
-              <a href="/admin/invoices/create-invoice">Create invoice</a>
-            </Button>
+            <Link href="/admin/invoices/create-invoice" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create invoice</Link>
         </div>
         <Table />
       </div>

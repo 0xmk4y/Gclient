@@ -4,9 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input" 
 import { User2, Mail, GraduationCap, MapPin, Phone, UsersRound, BadgeCent, Pencil, ChevronRight } from "lucide-react";
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Course } from '@/types/types';
+
+
+async function getCourses(): Promise<Course[]> {
+  try {
+    const response = await fetch('/api/courses');
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching learners:", error);
+    return [];
+  }
+}
 
 export default function Form() {
+  const [ allCourses, setCourses] = useState<Course[]>([]);
   const router = useRouter();
+
+  React.useEffect(() => {
+    getCourses().then(setCourses);
+    }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,7 +43,7 @@ export default function Form() {
       description: formData.get('description'),
     };
   
-    const response = await fetch('/api/create-leaner', {
+    const response = await fetch('/api/learners/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,13 +54,12 @@ export default function Form() {
     if (response.ok) {
       // Handle successful creation
       console.log('Learner created successfully');
-      router.push('/admin/dashboard');
+      router.push('/admin/learners');
     } else {
       // Handle creation error
       console.error('Failed to create learner');
     }
   };
-
   return (
     <div className="flex flex-col justify-center items-center w-full bg-gray-100 p-2 md:p-4 mt-10">
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
@@ -61,15 +78,15 @@ export default function Form() {
           <input type="text" name="email" id="email" className="bg-transparent border-none focus:outline-none p-2" placeholder="Email"/>
         </div>
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
+            <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
             <GraduationCap size={20} />
             <select name="program" id="program" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">
               <option value="" disabled selected className="text-gray-100">Select Program</option>
-              <option value="course1">Course 1</option>
-              <option value="course2">Course 2</option>
-              <option value="course3">Course 3</option>
+              {allCourses.map((course) => (
+              <option key={course.id} value={course.id}>{course.title}</option>
+              ))}
             </select>
-          </div>
+            </div>
           <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
             <GraduationCap size={20}/>
             <select name="gender" id="gender" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">

@@ -13,7 +13,7 @@ export default function CardBox({ icon: Icon, title, total }: CardBoxProps) {
                 <Icon />
                 <p className='font-bold'>{title}</p>
             </div>
-            <p className='font-bold py-10 bg-white text-center'>${total}</p>
+            <p className='font-bold py-10 bg-white text-center'>{total}</p>
         </div>
     )
 }

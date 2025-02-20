@@ -1,33 +1,77 @@
 import CardBox from "@/components/CardBox";
 import DashboardNav from "@/components/DashboardNav";
-import ProfileSideBar from "@/components/ProfileSideBar";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
 import React from "react";
 import { Banknote, Clock, Scroll, UsersRound } from 'lucide-react'
+import { Invoice } from "@/types/types";
+import { Learner } from "@/types/types";
+import { PrismaClient } from "@prisma/client";
 
-const data = [
-  {
-    icon: Banknote,
-    title: "Collected",
-    total: "2000"
-  },
-  {
-    icon: Clock,
-    title: "Pending",
-    total: "20000"
-  },
-  {
-    icon: Scroll,
-    title: "Total invoices",
-    total: "35"
-  },
-  {
-    icon: UsersRound,
-    title: "Total leaners",
-    total: "49"
-  },
-]
-export default function Page() {
+
+const prisma = new PrismaClient();
+
+async function getInvoices(): Promise<Invoice[]> {
+  try{
+    const Invoices = await prisma.invoice.findMany({
+      include: {
+        learner: true,
+      },
+    });
+    console.log(Invoices);
+    return Invoices;
+  } catch (error) {
+    console.error("Error fetching Invoices:", error);
+    return [];
+  }
+}
+
+async function getLearners(): Promise<Learner[]> {
+  try{
+    const Learners = await prisma.learner.findMany();
+    return Learners;
+  } catch (error) {
+    console.error("Error fetching Learners:", error);
+    return [];
+  }
+}
+
+
+export default async function Page() {
+  const invoices = await getInvoices();
+  const totalAmount = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
+  console.log("Total Amount:", totalAmount);
+
+  const paidInvoices = invoices.filter(invoice => invoice.status === 'paid');
+  const totalPaidAmount = paidInvoices.reduce((sum, invoice) => sum + invoice.amount, 0);
+
+  const pendInvoices = invoices.filter(invoice => invoice.status === 'pending');
+  const totalPendAmount = pendInvoices.reduce((sum, invoice) => sum + invoice.amount, 0);
+
+  const Learners = await getLearners();
+  const totalLearners = Learners.length;
+  
+  const data = [
+    {
+      icon: Banknote,
+      title: "Collected",
+      total: '$' + totalPaidAmount.toString()
+    },
+    {
+      icon: Clock,
+      title: "Pending",
+      total: '$' + totalPendAmount.toString()
+    },
+    {
+      icon: Scroll,
+      title: "Total invoices",
+      total: '$' + totalAmount.toString()
+    },
+    {
+      icon: UsersRound,
+      title: "Total learners",
+      total: totalLearners.toString()
+    },
+  ];
+
   return (
     <div className="w-full">
       <div className="flex justify-end w-full p-3">
@@ -40,7 +84,7 @@ export default function Page() {
       <div className="px-4 md:px-8">
         <div className="flex flex-wrap gap-2 justify-center items-center">
           {data.map((item, index) => (
-        <CardBox key={index} icon={item.icon} title={item.title} total={item.total} />
+        <CardBox key={index} icon={item.icon} title={item.title} total={item.total.toString()} />
           ))}
         </div>
       </div>

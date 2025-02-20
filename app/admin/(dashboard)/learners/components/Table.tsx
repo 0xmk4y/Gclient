@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Eye, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Learner } from "@/types/types";
+import DeleteModal from "./DeleteModal";
 
 export default function Table({ learners }: { learners: Learner[] }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,9 +35,9 @@ export default function Table({ learners }: { learners: Learner[] }) {
               <th scope="col" className="px-3 py-3 md:px-6 md:py-3">
                 Course
               </th>
-              <th scope="col" className="px-3 py-3 md:px-6 md:py-3">
+              {/* <th scope="col" className="px-3 py-3 md:px-6 md:py-3">
                 Amount
-              </th>
+              </th> */}
               <th scope="col" className="px-3 py-3 md:px-6 md:py-3">
                 Date
               </th>
@@ -64,10 +65,10 @@ export default function Table({ learners }: { learners: Learner[] }) {
                   </div>
                 </th>
                 <td className="md:px-6 md:py-4 px-2">{learner.program}</td>
-                <td className="md:px-6 md:py-4 px-2">${learner.amount}</td>
+                {/* <td className="md:px-6 md:py-4 px-2">${learner.}</td> */}
                 <td className="md:px-6 md:py-4 px-2">{learner.createdAt.toDateString()}</td>
                 <td className="md:px-6 md:py-4 px-2">{learner.gender}</td>
-                <td className="text-center flex gap-3">
+                <td className="text-center flex gap-3 items-center">
                   <Button
                     variant="link"
                     size="sm"
@@ -82,13 +83,7 @@ export default function Table({ learners }: { learners: Learner[] }) {
                   >
                     <Pencil color="#77C053" />
                   </Button>
-                  <Button
-                    variant="link"
-                    size="sm"
-                    className="p-1.5 bg-[#F7E9EA] hover:bg-red-100"
-                  >
-                    <Trash2 color="#A61D24" />
-                  </Button>
+                  <DeleteModal id={learner.id} />
                 </td>
               </tr>
             ))}
