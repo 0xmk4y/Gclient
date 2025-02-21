@@ -41,6 +41,8 @@ const admins: Admin[] = [
 const users: User[] = [
     {
         id: 1,
+        firstName: "Alice",
+        lastName: "Johnson",
         email: "alice.johnson@example.com",
         password: "password123",
         createdAt: new Date(),
@@ -48,6 +50,8 @@ const users: User[] = [
     },
     {
         id: 2,
+        firstName: "Bob",
+        lastName: "Brown",
         email: "bob.brown@example.com",
         password: "password123",
         createdAt: new Date(),
@@ -55,6 +59,8 @@ const users: User[] = [
     },
     {
         id: 3,
+        firstName: "Charlie",
+        lastName: "Davis",
         email: "charlie.davis@example.com",
         password: "password123",
         createdAt: new Date(),
@@ -197,6 +203,11 @@ async function main() {
                 password: await hashPassword(user.password),
             }))
         );
+        await prisma.admin.deleteMany({});
+        await prisma.user.deleteMany({});
+        await prisma.course.deleteMany({});
+        await prisma.learner.deleteMany({});
+        await prisma.invoice.deleteMany({});
 
         await prisma.admin.createMany({ data: hashedAdmins });
         await prisma.user.createMany({ data: hashedUsers });

@@ -7,22 +7,17 @@ import { X } from 'lucide-react';
 export default function ProfileSideBar() {
     const [isOpen, setIsOpen] = useState(false);
 
+    const admin = localStorage.getItem('admin');
+
+    const [adminData, setAdminData] = useState(admin ? JSON.parse(admin) : null);
+
+    React.useEffect(() => {
+        setAdminData(admin ? JSON.parse(admin) : null);
+    }, [admin]);
+
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
-
-    const info = [
-        {
-            name: "John Doe",
-            email: "email@example.com",
-            program: "Computer Science",
-            gender: "Male",
-            contact: "08012345678",
-            location: "Lagos, Nigeria",
-            paid: "N/A",
-            bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien fermentum aliquam. Nullam nec nunc nec liber"
-        }
-    ]
 
     return (
         <div className='flex items-center text-black'>
@@ -34,7 +29,7 @@ export default function ProfileSideBar() {
                 height={50}
                 className='rounded-full w-10 h-10'
             />
-            <p className='text-black'>{"John Doe"}</p>
+            <p className='text-black'>{adminData.firstName + " " + adminData.lastName}</p>
             </Button>
             {isOpen && (
             <div className="fixed inset-0 bg-black opacity-50 z-40" onClick={toggleSidebar}></div>
@@ -51,19 +46,19 @@ export default function ProfileSideBar() {
                 />
             </div>
             <div className="mt-20 flex flex-col items-center">
-                <h2 className="text-xl">{"John Doe"}</h2>
-                <p>{"email@example.com"}</p>
+                <h2 className="text-xl">{adminData.firstName + " " + adminData.lastName}</h2>
+                <p>{adminData.email}</p>
                 <div className='px-4 w-full mt-4'>
                     <hr className='border-t border-gray-300 w-full' />
                 </div>
                 <table className="w-full mt-4 text-sm">
                     <tbody>
-                        {Object.entries(info[0]).map(([key, value], index) => (
+                        {/* {Object.entries(info[0]).map(([key, value], index) => (
                             <tr key={index} className="">
                                 <td className="min-w-[100px] pl-6">{key.charAt(0).toUpperCase() + key.slice(1)}</td>
                                 <td className="pr-4">{value}</td>
                             </tr>
-                        ))}
+                        ))} */}
                     </tbody>
                 </table>
             </div>

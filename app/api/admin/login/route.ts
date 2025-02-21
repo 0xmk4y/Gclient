@@ -5,7 +5,6 @@ import { SessionData } from "@/types/types";
 
 const prisma = new PrismaClient();
 
-
 export async function POST(req: Request) {
   console.log("Login API");
   const { email, password } = await req.json();
@@ -24,7 +23,7 @@ export async function POST(req: Request) {
     });
 
     if (!admin) {
-      return new Response(JSON.stringify({ message: "Admin not found" }), {
+      return new Response(JSON.stringify({ message: "Invalid email or password" }), {
         status: 404,
       });
     }
@@ -36,15 +35,28 @@ export async function POST(req: Request) {
         status: 401,
       });
     }
+    const Admin: { id: number; firstName: String, lastName: String, email: string, contact: String } = {
+      id: admin.id,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      email: admin.email,
+      contact: admin.contact
+    };
 
-    const res = new Response(JSON.stringify({id: admin.id, first_name: admin.firstName, last_name: admin.lastName, email: admin.email, contact: admin.contact }), { status: 200 });
+    const res = new Response(JSON.stringify({message: "Login successsfull", admin: Admin }), { status: 200 });
+
     const session = await getIronSession<SessionData>(req, res, {
       password: process.env.SECRET_COOKIE_PASSWORD as string,
       cookieName: "session",
       ttl: 60 * 60 * 24, // 1 day
     });
 
-    session.user = { email, role: "admin" };
+    session.user = {
+      id: admin.id,
+      email: admin.email,
+      role: "admin"
+    };
+    
     await session.save();
 
     return res;

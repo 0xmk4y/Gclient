@@ -11,6 +11,8 @@ export type Admin = {
 
 export type User = {
   id: number;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   createdAt: Date;
@@ -59,7 +61,11 @@ export type Learner = {
 
 export type SessionData = {
   user?: {
+    id?: number;
+    firstName?: string;
+    lastName?: string;
     email: string;
-    role: "admin" | "user"
+    contact?: string;
+    role: "admin" | "user";
   };
 }

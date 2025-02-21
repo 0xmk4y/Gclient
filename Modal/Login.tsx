@@ -15,36 +15,48 @@ interface ActiveProps {
 
 export default function Login({ setActive }: ActiveProps) {
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false)  
 
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-  const data = {
-    email: formData.get('email'),
-    password: formData.get('password'),
-  };
+    event.preventDefault();
+    setIsLoading(true);
+    setError('');
 
-  const response = await fetch('/api/user/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  
-  const res = await response.json();
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      email: formData.get('email'),
+      password: formData.get('password'),
+    };
 
-  if (response.ok) {
-    // Handle successful login
-    console.log('Login successful');
-    router.push('/user/dashboard');
-  } else {
-    // Handle login error
-    setError(res.message || 'Login failed');
-    console.error('Login failed');
-  }
+    try {
+      const response = await fetch('/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      
+      const res = await response.json();
+
+      if (!response.ok) {
+        throw new Error(res.message || 'Login failed');
+      }
+
+      console.log('Login successful');
+
+      const user = res.user;
+      localStorage.setItem('user', JSON.stringify(user));
+
+      router.push('/user/dashboard');
+    } catch (error: any) {
+      console.error('An error occurred:', error);
+      setError(error.message || 'An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -72,7 +84,7 @@ export default function Login({ setActive }: ActiveProps) {
         error && <p className='text-red-500 text-sm text-center'>{error}</p>
       }
       <Button type="submit" className='font-bold'>
-        <span>Login</span>
+        <span>{ isLoading ? 'Loading..' : 'Login'}</span>
         <ChevronRight />
       </Button>
       <div className='flex items-center justify-center gap-1'>

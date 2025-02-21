@@ -1,10 +1,15 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 export default function NavBar() {
+    const user = localStorage.getItem('user');
+    const [userData, setUserData] = useState(user ? JSON.parse(user) : null);
+    useEffect(() => {
+        setUserData(user ? JSON.parse(user) : null);
+    }, [user]);
 
     return (
         <div className='flex items-center'>
@@ -20,7 +25,7 @@ export default function NavBar() {
                 </Link>
                 <div className='flex flex-col md:flex-row items-center text-sm md:gap-2'>
                     <Button className='shadow-none text-white font-bold rounded-full w-10 h-10 flex items-center justify-center'>JD</Button>
-                    <p>{"John Jones"}</p>
+                    <p>{ userData.firstName + " " + userData.lastName}</p>
                 </div>
             </div>
         </div>

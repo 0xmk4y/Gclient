@@ -5,6 +5,9 @@ import { Banknote, Clock, Scroll, UsersRound } from 'lucide-react'
 import { Invoice } from "@/types/types";
 import { Learner } from "@/types/types";
 import { PrismaClient } from "@prisma/client";
+import RevenuesGraph from "./components/RevenuesGraph";
+import LatestInvoiceGraph from "./components/LatestInvoiceGraph";
+import Welcome from "./components/Welcome";
 
 
 const prisma = new PrismaClient();
@@ -36,6 +39,7 @@ async function getLearners(): Promise<Learner[]> {
 
 
 export default async function Page() {
+  
   const invoices = await getInvoices();
   const totalAmount = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
   console.log("Total Amount:", totalAmount);
@@ -77,10 +81,7 @@ export default async function Page() {
       <div className="flex justify-end w-full p-3">
         <DashboardNav />
       </div>
-      <div className="mb-6 px-4 md:px-8">
-        <h2 className="font-bold text-2xl">Dashboard</h2>
-        <p className="text-sm">Welcome back, {"John"}</p>
-      </div>
+      <Welcome />
       <div className="px-4 md:px-8">
         <div className="flex flex-wrap gap-2 justify-center items-center">
           {data.map((item, index) => (
@@ -88,20 +89,19 @@ export default async function Page() {
           ))}
         </div>
       </div>
-      <div className="mt-10 flex flex-col md:flex-row justify-between w-full px-4 md:px-8 mb-12">
-        {/* Revenues */}
+      <div className="mt-10 flex flex-col md:flex-row justify-between w-full px-4 md:px-8 mb-12 min-h-[340px]">
+        
+        {/* Recent Revenues */}
         <div className="w-full md:w-1/2 p-2">
           <h2 className="font-bold text-xl mb-4">Recent Revenues</h2>
-          <div className="h-[350px] border">
-
-          </div>
+          <RevenuesGraph />
+          
         </div>
-        {/* Invoices */}
+       
+        {/* Latest Invoices */}
         <div className="w-full md:w-1/2 p-2">
           <h2 className="font-bold text-xl mb-4">Latest Invoices</h2>
-          <div className="h-[350px] border">
-
-          </div>
+          <LatestInvoiceGraph />
         </div>
       </div>
     </div>

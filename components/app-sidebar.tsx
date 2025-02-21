@@ -78,7 +78,7 @@ export function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#" className="text-xl">
+                <a href="/admin/settings" className="text-xl">
                   <Calendar />
                   <span>Settings</span>
                 </a>

@@ -35,8 +35,12 @@ export async function POST(req: Request) {
         status: 401,
       });
     }
+    const User: { id: number; email: string } = {
+      id: user.id,
+      email: user.email,
+    };
 
-    const res = new Response(JSON.stringify({message: "Login successsfull", id: user.id, email: user.email }), { status: 200 });
+    const res = new Response(JSON.stringify({message: "Login successsfull", user: User }), { status: 200 });
 
     const session = await getIronSession<SessionData>(req, res, {
       password: process.env.SECRET_COOKIE_PASSWORD as string,
@@ -44,7 +48,12 @@ export async function POST(req: Request) {
       ttl: 60 * 60 * 24, // 1 day
     });
 
-    session.user = { email, role: "user" };
+    session.user = {
+      id: user.id,
+      email: user.email,
+      role: "user"
+    };
+    
     await session.save();
 
     return res;

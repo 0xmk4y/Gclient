@@ -10,35 +10,46 @@ import { useState } from 'react';
 
 export default function Page() {
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState(''); 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setIsLoading(true)
         const formData = new FormData(event.currentTarget);
         const data = {
             email: formData.get('email'),
             password: formData.get('password'),
         };
 
-        const response = await fetch('/api/admin/login', {
-            method: 'POST',
-            headers: {
+        try {
+            const response = await fetch('/api/admin/login', {
+              method: 'POST',
+              headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
-            // Handle successful login
+              },
+              body: JSON.stringify(data),
+            });
+            
+            const res = await response.json();
+      
+            if (!response.ok) {
+              throw new Error(res.message || 'Login failed');
+            }
+      
             console.log('Login successful');
+      
+            const admin = res.admin;
+            localStorage.setItem('admin', JSON.stringify(admin));
+      
             router.push('/admin/dashboard');
-        } else {
-            // Handle login error
-            const errorData = await response.json();
-            setError(errorData.message);
-            console.error('Login failed');
-        }
-    };
+          } catch (error: any) {
+            console.error('An error occurred:', error);
+            setError(error.message || 'An unexpected error occurred');
+          } finally {
+            setIsLoading(false);
+          }
+        };
 
     return (
         <div className='flex'>
@@ -59,11 +70,11 @@ export default function Page() {
                     <form onSubmit={handleSubmit} className='text-sm w-full md:max-w-[400px] p-3 bg-white text-gray-400'>
                         <div className='flex items-center border dark:border-gray-500 border-b-2 border-b-primary mb-8 bg-gray-100'>
                             <Mail className='mx-1 dark:text-primary' />
-                            <input type="text" name='email' placeholder='Email' className='p-2 w-full focus:ring-0 outline-none bg-transparent text-black' />
+                            <input type="email" name='email' placeholder='Email' className='p-2 w-full focus:ring-0 outline-none bg-transparent text-black' required/>
                         </div>
                         <div className='flex items-center border dark:border-gray-500 border-b-2 border-b-primary mb-4 bg-gray-100'>
                             <LockKeyhole className='mx-1 dark:text-primary'/>
-                            <input type="password" name='password' placeholder='Password' className='p-2 w-full focus:ring-0 outline-none bg-transparent text-black' />
+                            <input type="password" name='password' placeholder='Password' className='p-2 w-full focus:ring-0 outline-none bg-transparent text-black' required />
                         </div>
                         {error && (
                             <div className='text-red-500 mb-4 text-center'>
@@ -73,7 +84,7 @@ export default function Page() {
                         <Link href={"/admin/reset-password-email"} className='text-primary'>Forgot Password</Link>
                         <div className='w-full'>
                             <Button type="submit" className='bg-primary text-white py-2 px-4 mt-4 w-full'>
-                               Login
+                                { isLoading ? 'Loading..' : 'Login'}
                                 <ChevronRight className='inline ml-2' size={16} />
                             </Button>
                         </div>
