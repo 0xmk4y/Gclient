@@ -2,6 +2,7 @@ import {  NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 
 export async function GET(req: Request) {
+    
     const res = new NextResponse(null, { 
         status: 302,
         headers: {

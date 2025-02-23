@@ -3,7 +3,18 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
 
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
+
+  
 export default function NavBar() {
     interface User {
         firstName: string;
@@ -32,7 +43,20 @@ export default function NavBar() {
                     />
                 </Link>
                 <div className='flex flex-col md:flex-row items-center text-sm md:gap-2'>
-                    <Button className='shadow-none text-white font-bold rounded-full w-10 h-10 flex items-center justify-center'>JD</Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button className='shadow-none text-white font-bold rounded-full w-10 h-10 flex items-center justify-center'>JD</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className='bg-white w-[100px] '>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <Link href="/api/user/logout" className='hover:underline text-center flex items-center gap-2'>
+                                    <LogOut size={"15px"} />
+                                    <p>Logout</p>
+                                </Link>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     {userData && <p>{userData.firstName + " " + userData.lastName}</p>}
                 </div>
             </div>

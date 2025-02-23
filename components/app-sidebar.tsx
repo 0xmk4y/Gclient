@@ -86,7 +86,7 @@ export function AppSidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="/api/logout" className="text-xl">
+                <a href="/api/admin/logout" className="text-xl">
                   <Calendar />
                   <span>Logout</span>
                 </a>
