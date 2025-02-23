@@ -1,105 +1,68 @@
-# Project Title
+# 📚 Learner & Admin Platform
 
-G-Client-APP
+## 🚀 Project Overview
+This project consists of two main phases:
+1. **Learner Platform** – A user-friendly interface for learners to sign up, register, and track their course applications.
+2. **Admin Platform** – A powerful dashboard for administrators to manage learners, courses, and financial transactions.
 
-## Description
+---
 
-G-Client-APP is a project designed to [brief description of what the project does]. This project aims to [purpose of the project].
+## 📌 Phase 1: Learner Platform
+### 🌟 Overview
+The Learner Platform provides an easy-to-use interface where users can:
+- **Sign Up & Register for Courses**
+  - Users can register using:
+    - **Google Account** (OAuth-based login)
+    - **Email & Password** authentication
+- **Application Process**
+  - Fill out a **detailed registration form** for the desired course
+  - Receive a **confirmation email** upon successful registration
+  - Get **redirected to the dashboard** to track application status
+- **Learner Dashboard**
+  - View **application details & current status**
+  - Access **enrolled courses & learning materials** (if applicable)
 
-## Features
+---
 
-- Feature 1
-- Feature 2
-- Feature 3
+## 📌 Phase 2: Admin Platform
+### 🌟 Overview
+The Admin Platform is designed for system administrators to efficiently manage learners, courses, and finances.
 
-## Installation
+### 🔑 Features
+- **Admin Authentication**
+  - **Login with email & password**
+  - **Forgot password functionality**
+  - **OTP-based authentication for enhanced security**
 
-To install this project, follow these steps:
+- **Dashboard Overview**
+  - **Statistical insights**, including:
+    - Total number of learners
+    - Pending amount
+    - Collected amount
+    - Total invoices generated
+    - Number of available courses
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/g-client-ap.git
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd g-client-ap
-    ```
-3. Install dependencies:
-    ```bash
-    npm install
-    ```
+- **User & Course Management**
+  - Perform **CRUD operations** on:
+    - Learners
+    - Courses
+    - Invoices
+  - **Generate detailed reports** for financial tracking and system performance
 
-## Usage
+---
 
-To use this project, follow these steps:
+## 🛠️ Technologies Used (Suggested)
+- **Frontend:** React.js / Next.js with Tailwind CSS
+- **Backend:** Node.js with Express.js
+- **Database:** MongoDB / PostgreSQL
+- **Authentication:** Firebase Auth / NextAuth.js
+- **Email Notifications:** Nodemailer / SendGrid
+- **OTP Verification:** Twilio / Firebase OTP
 
-1. Start the development server:
-    ```bash
-    npm start
-    ```
-2. Open your browser and navigate to `http://localhost:3000`.
+---
 
-## Contributing
+## 📩 Contact & Contribution
+Interested in contributing? Feel free to fork the repository and submit a pull request. For queries, reach out via email or open an issue in the repository.
 
-To contribute to this project, follow these steps:
+🚀 Happy Coding! 🎉
 
-1. Fork the repository.
-2. Create a new branch:
-    ```bash
-    git checkout -b feature-branch
-    ```
-3. Make your changes and commit them:
-    ```bash
-    git commit -m 'Add some feature'
-    ```
-4. Push to the branch:
-    ```bash
-    git push origin feature-branch
-    ```
-5. Create a new Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-If you have any questions or suggestions, please contact [your name] at [your email].
-
-
-npx prisma migrate dev --name add_new_table     #add new table
-npx prisma migrate reset                         # seed new changes
-npx prisma db pull                              #pull table to schema
-
-- invoices
-leaner
-email
-amount
-date
-status
-details
-
-- leaner
-first name
-last name
-program
-amount
-date
-gender
-email
-phone
-location
-disabled
-image
-description
-
-- Admin
-first name
-last name
-email
-password
-contact
-
-- User
-email
-password
