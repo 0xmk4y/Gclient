@@ -39,7 +39,7 @@ export default function page() {
         <Hero />
 
         {/* Our Solutions */}
-        <div className='w-full flex flex-col items-center mt-10'>
+        <div className='w-full flex flex-col items-center mt-10' id="home">
             <h2 className='text-[40px] font-bold'>Our Solutions</h2>
             <p className='text-center'>Create your account quickly with just your email or social media login, then explore a wide range </p>
             <div className='flex gap-4 flex-wrap justify-center mt-4 p-3'>
@@ -58,7 +58,7 @@ export default function page() {
         </div>
 
         {/* What next */}
-        <div className='w-full flex flex-col items-center mt-10 bg-[#01589A] text-white py-16'>
+        <div className='w-full flex flex-col items-center mt-10 bg-[#01589A] text-white py-16' id='courses'>
               <h2 className='text-[40px] font-bold text-center'>What will be next step</h2>
               <p className='text-center max-w-[600px] mb-8'>Discover our diverse stack of solutions, including software development, data science, and cloud tools. Sign up today and kickstart your journey!</p>
               <div>
@@ -67,8 +67,8 @@ export default function page() {
         </div>
 
         {/* Register */}
-        <div>
-            <RegisterGuide />
+        <div className='h-[500px]'>
+            {/* <RegisterGuide /> */}
         </div>
 
         {/* Footer */}

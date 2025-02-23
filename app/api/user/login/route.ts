@@ -35,9 +35,11 @@ export async function POST(req: Request) {
         status: 401,
       });
     }
-    const User: { id: number; email: string } = {
+    const User: { id: number; email: string, firstName: String, lastName: String } = {
       id: user.id,
       email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName
     };
 
     const res = new Response(JSON.stringify({message: "Login successsfull", user: User }), { status: 200 });

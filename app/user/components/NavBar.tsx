@@ -5,11 +5,19 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 export default function NavBar() {
-    const user = localStorage.getItem('user');
-    const [userData, setUserData] = useState(user ? JSON.parse(user) : null);
+    interface User {
+        firstName: string;
+        lastName: string;
+    }
+
+    const [userData, setUserData] = useState<User | null>(null);
+
     useEffect(() => {
-        setUserData(user ? JSON.parse(user) : null);
-    }, [user]);
+        if (typeof window !== 'undefined') {
+            const user = localStorage.getItem('user');
+            setUserData(user ? JSON.parse(user) : null);
+        }
+    }, []);
 
     return (
         <div className='flex items-center'>
@@ -25,7 +33,7 @@ export default function NavBar() {
                 </Link>
                 <div className='flex flex-col md:flex-row items-center text-sm md:gap-2'>
                     <Button className='shadow-none text-white font-bold rounded-full w-10 h-10 flex items-center justify-center'>JD</Button>
-                    <p>{ userData.firstName + " " + userData.lastName}</p>
+                    {userData && <p>{userData.firstName + " " + userData.lastName}</p>}
                 </div>
             </div>
         </div>

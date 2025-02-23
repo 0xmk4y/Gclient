@@ -26,8 +26,18 @@ export default function NavBar() {
                         className=''
                     />
                     <div className='flex gap-4'>
-                        <Link href={"#"}>Home</Link>
-                        <Link href={"#"}>Courses</Link>
+                        <Link href={"#home"} scroll={false} legacyBehavior>
+                            <div onClick={(e) => {
+                                e.preventDefault();
+                                document.querySelector('#home')?.scrollIntoView({ behavior: 'smooth' });
+                            }}>Home</div>
+                        </Link>
+                        <Link href={"#courses"} scroll={false} legacyBehavior>
+                            <div onClick={(e) => {
+                                e.preventDefault();
+                                document.querySelector('#courses')?.scrollIntoView({ behavior: 'smooth' });
+                            }}>Courses</div>
+                        </Link>
                     </div>
                 </div>
                 <Button className='max-w-[100px] shadow-none text-white font-bold rounded-md' onClick={openLoginModal}>Login <span><LogIn /></span></Button>

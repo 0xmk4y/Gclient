@@ -27,14 +27,18 @@ export async function middleware(req: NextRequest) {
     const session = await getIronSession<SessionData>(req, res, sessionOptions);
 
     if (!session.user) {
-        return NextResponse.redirect(new URL("/", req.url));
+        if (req.nextUrl.pathname.startsWith("/admin")) {
+            return NextResponse.redirect(new URL("/admin/login", req.url));
+        } else if (req.nextUrl.pathname.startsWith("/user")) {
+            return NextResponse.redirect(new URL("/", req.url));
+        }
     }
 
-    if (req.nextUrl.pathname.startsWith("/admin") && session.user.role !== "admin") {
+    if (req.nextUrl.pathname.startsWith("/admin") && session.user && session.user.role !== "admin") {
         return NextResponse.redirect(new URL("/admin/login", req.url));
     }
 
-    if (req.nextUrl.pathname.startsWith("/user") && session.user.role !== "user") {
+    if (req.nextUrl.pathname.startsWith("/user") && session.user && session.user.role !== "user") {
         return NextResponse.redirect(new URL("/", req.url));
     }
 

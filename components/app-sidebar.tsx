@@ -74,7 +74,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <div className="mt-auto mb-6">
+        <div className="mt-auto mb-6 mx-2">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
@@ -86,7 +86,7 @@ export function AppSidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="#" className="text-xl">
+                <a href="/api/logout" className="text-xl">
                   <Calendar />
                   <span>Logout</span>
                 </a>

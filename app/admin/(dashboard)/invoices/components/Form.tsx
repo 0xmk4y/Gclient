@@ -16,6 +16,7 @@ async function getLearners(): Promise<Learner[]> {
 }
 
 export default function Form() {
+  const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [learners, setLearners] = useState<Learner[]>([]);
   const router = useRouter();
 
@@ -25,6 +26,7 @@ export default function Form() {
 
   async function createInvoice(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(event.currentTarget);
     
     const learnerId = parseInt(formData.get("course") as string, 10);
@@ -55,6 +57,8 @@ export default function Form() {
       }
     } catch (error) {
       console.error("Error creating invoice:", error);
+    }finally{
+      setIsLoading(false);
     }
   }
 
@@ -63,7 +67,7 @@ export default function Form() {
       <form onSubmit={createInvoice} method="POST" className="w-full flex flex-col gap-4">
         <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
           <UsersRound size={20} />
-          <select name="course" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">
+          <select name="course" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full" required>
             <option value="" disabled>Select Learner</option>
             {learners.map((learner) => (
               <option key={learner.id} value={learner.id}>{learner.firstName + " " + learner.lastName}</option>
@@ -72,15 +76,15 @@ export default function Form() {
         </div>
         <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
           <BadgeCent size={20} />
-          <input type="text" name="amount" className="bg-transparent border-none focus:outline-none p-2" placeholder="Enter amount in USD" />
+          <input type="text" name="amount" className="bg-transparent border-none focus:outline-none p-2" placeholder="Enter amount in USD" required/>
         </div>
         <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
           <Calendar size={20} />
-          <input type="date" name="date" className="bg-transparent border-none focus:outline-none p-2" placeholder="Collection date" />
+          <input type="date" name="date" className="bg-transparent border-none focus:outline-none p-2" placeholder="Collection date" required/>
         </div>
         <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
           <UsersRound size={20} />
-          <select name="status" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full">
+          <select name="status" className="text-gray-400 bg-transparent border-none focus:outline-none p-2 w-full" required>
             <option value="paid">Paid</option>
             <option value="pending">Pending</option>
           </select>
@@ -92,7 +96,7 @@ export default function Form() {
         <div className='w-full flex justify-end'>
           <div className='flex gap-4'>
             <Button variant={'outline'} className='bg-gray-100'>Cancel <ChevronRight /></Button>
-            <Button type="submit" className='text-white'>Create Invoice <ChevronRight /></Button>
+            <Button type="submit" className='text-white'>{isLoading ? 'Creating..': 'Create Invoice'} <ChevronRight /></Button>
           </div>
         </div>
       </form>
