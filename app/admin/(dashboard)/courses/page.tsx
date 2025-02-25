@@ -2,8 +2,6 @@ import React from 'react'
 import DashboardNav from '@/components/DashboardNav'
 import SearchBar from '@/components/SearchBar'
 import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
 import Courses from './components/Courses'
 
 export default function page() {

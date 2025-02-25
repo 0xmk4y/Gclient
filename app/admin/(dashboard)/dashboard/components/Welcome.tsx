@@ -1,20 +1,22 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Welcome() {
-  const admin = localStorage.getItem("admin");
+  interface AdminData {
+    firstName: string;
+  }
 
-  const [adminData, setAdminData] = useState(admin ? JSON.parse(admin) : null);
+  const [adminData, setAdminData] = useState<AdminData | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const admin = typeof window !== "undefined" ? localStorage.getItem("admin") : null;
     setAdminData(admin ? JSON.parse(admin) : null);
-  }, [admin]);
+  }, []);
 
   return (
     <div className="mb-6 px-4 md:px-8">
       <h2 className="font-bold text-2xl">Dashboard</h2>
-      <p className="text-sm">Welcome back, {adminData.firstName}</p>
+      <p className="text-sm">Welcome back, {adminData ? adminData.firstName : "Guest"}</p>
     </div>
   );
 }

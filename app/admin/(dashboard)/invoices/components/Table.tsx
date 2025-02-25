@@ -10,41 +10,28 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-
 import { Invoice } from "@/types/types";
 import { PrismaClient } from "@prisma/client";
 import DeleteModal from "./DeleteModal";
 
-const prisma = new PrismaClient();
-
-
-async function getInvoices(): Promise<Invoice[]> {
-  try{
-    const Invoices = await prisma.invoice.findMany({
-      include: {
-        learner: true,
-      },
-    });
-    console.log(Invoices);
-    return Invoices;
-  } catch (error) {
-    console.error("Error fetching Invoices:", error);
-    return [];
-  }
-}
 
 export default async function Table() {
+  const prisma = new PrismaClient();
+  
+  async function getInvoices(): Promise<Invoice[]> {
+    try{
+      const Invoices = await prisma.invoice.findMany({
+        include: {
+          learner: true,
+        },
+      });
+      console.log(Invoices);
+      return Invoices;
+    } catch (error) {
+      console.error("Error fetching Invoices:", error);
+      return [];
+    }
+  }
 
   const invoices = await getInvoices();
 

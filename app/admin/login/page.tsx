@@ -9,6 +9,7 @@ import SideBar from '../components/SideBar';
 import { useState } from 'react';
 
 export default function Page() {
+    
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState(''); 

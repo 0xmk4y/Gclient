@@ -5,17 +5,18 @@ import { useRouter } from 'next/navigation';
 import { Calendar, UsersRound, BadgeCent, Pencil, ChevronRight } from "lucide-react";
 import { Learner } from '@/types/types';
 
-async function getLearners(): Promise<Learner[]> {
-  try {
-    const response = await fetch('/api/learners');
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching learners:", error);
-    return [];
-  }
-}
 
 export default function Form() {
+  async function getLearners(): Promise<Learner[]> {
+    try {
+      const response = await fetch('/api/learners');
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching learners:", error);
+      return [];
+    }
+  }
+  
   const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [learners, setLearners] = useState<Learner[]>([]);
   const router = useRouter();

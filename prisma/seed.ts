@@ -101,38 +101,6 @@ const courses: Course[] = [
     },
 ];
 
-const invoices: Invoice[] = [
-    {
-        id: 1,
-        learnerId: 1,
-        amount: 200.00,
-        date: new Date(),
-        status: "Paid",
-        details: "Payment for course enrollment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: 2,
-        learnerId: 2,
-        amount: 250.00,
-        date: new Date(),
-        status: "Pending",
-        details: "Payment for course enrollment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: 3,
-        learnerId: 3,
-        amount: 300.00,
-        date: new Date(),
-        status: "Paid",
-        details: "Payment for course enrollment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-];
 
 const learners: Learner[] = [
     {
@@ -177,6 +145,41 @@ const learners: Learner[] = [
         disabled: false,
         image: "https://github.com/shadcn.png",
         description: "A passionate learner",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+];
+const invoices: Invoice[] = [
+    {
+        id: 1,
+        learnerId: 1,
+        learner: learners[0],
+        amount: 200.00,
+        date: new Date(),
+        status: "Paid",
+        details: "Payment for course enrollment",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: 2,
+        learnerId: 2,
+        learner: learners[1],
+        amount: 250.00,
+        date: new Date(),
+        status: "Pending",
+        details: "Payment for course enrollment",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: 3,
+        learnerId: 3,
+        learner: learners[2],
+        amount: 300.00,
+        date: new Date(),
+        status: "Paid",
+        details: "Payment for course enrollment",
         createdAt: new Date(),
         updatedAt: new Date(),
     },

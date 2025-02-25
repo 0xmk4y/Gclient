@@ -8,17 +8,17 @@ import { useState } from 'react';
 import { Course } from '@/types/types';
 
 
-async function getCourses(): Promise<Course[]> {
-  try {
-    const response = await fetch('/api/courses');
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching learners:", error);
-    return [];
-  }
-}
 
 export default function Form() {
+  async function getCourses(): Promise<Course[]> {
+    try {
+      const response = await fetch('/api/courses');
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching learners:", error);
+      return [];
+    }
+  }
   const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [ allCourses, setCourses] = useState<Course[]>([]);
   const router = useRouter();

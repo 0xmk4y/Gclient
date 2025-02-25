@@ -27,18 +27,17 @@ async function getInvoices(): Promise<Invoice[]> {
   }
 }
 
-async function getLearners(): Promise<Learner[]> {
-  try{
-    const Learners = await prisma.learner.findMany();
-    return Learners;
-  } catch (error) {
-    console.error("Error fetching Learners:", error);
-    return [];
-  }
-}
-
-
 export default async function Page() {
+  
+  async function getLearners(): Promise<Learner[]> {
+    try{
+      const Learners = await prisma.learner.findMany();
+      return Learners;
+    } catch (error) {
+      console.error("Error fetching Learners:", error);
+      return [];
+    }
+  }
   
   const invoices = await getInvoices();
   const totalAmount = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
