@@ -1,28 +1,26 @@
-import React from 'react'
+import React, { use } from 'react'
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { PrismaClient } from '@prisma/client';
 import { Invoice } from '@/types/types';
-const prisma = new PrismaClient();
-
-
-async function getInvoices(): Promise<Invoice[]> {
-  try{
-    const Invoices = await prisma.invoice.findMany({
-      include: {
-        learner: true,
-      },
-    });
-    console.log(Invoices);
-    return Invoices;
-  } catch (error) {
-    console.error("Error fetching Invoices:", error);
-    return [];
-  }
-}
 
 
 export default async function LatestInvoiceGraph() {
-    const invoice = await getInvoices();
+  const [invoice, setInvoice] = useState<Invoice[]>([]);
+
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      try {
+        const res = await fetch('/api/invoices');
+        const Invoices = await res.json();
+        setInvoice(Invoices);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchInvoices();
+  }, []);
+
   return (
     <div className='flex bg-gray-100 p-3 min-h-full rounded-md '>
         <div className='flex flex-col gap-4 border w-full bg-white'>
