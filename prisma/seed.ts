@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { Admin, User, Course, Invoice, Learner } from "@/types/types";
+import { Admin, User, Course, Learner } from "@/types/types";
 
 const prisma = new PrismaClient();
 const SALT_ROUNDS = 10;
@@ -149,11 +149,21 @@ const learners: Learner[] = [
         updatedAt: new Date(),
     },
 ];
+type Invoice = {
+        id: number;
+        learnerId: number;
+        amount: number;
+        date: Date;
+        status: string;
+        details: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }
 const invoices: Invoice[] = [
     {
         id: 1,
         learnerId: 1,
-        learner: learners[0],
+        // learner: learners[0],
         amount: 200.00,
         date: new Date(),
         status: "Paid",
@@ -164,7 +174,7 @@ const invoices: Invoice[] = [
     {
         id: 2,
         learnerId: 2,
-        learner: learners[1],
+        // learner: learners[1],
         amount: 250.00,
         date: new Date(),
         status: "Pending",
@@ -175,7 +185,7 @@ const invoices: Invoice[] = [
     {
         id: 3,
         learnerId: 3,
-        learner: learners[2],
+        // learner: learners[2],
         amount: 300.00,
         date: new Date(),
         status: "Paid",
@@ -206,12 +216,7 @@ async function main() {
                 password: await hashPassword(user.password),
             }))
         );
-        await prisma.admin.deleteMany({});
-        await prisma.user.deleteMany({});
-        await prisma.course.deleteMany({});
-        await prisma.learner.deleteMany({});
-        await prisma.invoice.deleteMany({});
-
+        
         await prisma.admin.createMany({ data: hashedAdmins });
         await prisma.user.createMany({ data: hashedUsers });
         await prisma.course.createMany({ data: courses });
