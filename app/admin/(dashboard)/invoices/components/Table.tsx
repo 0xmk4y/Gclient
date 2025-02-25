@@ -1,39 +1,34 @@
-
+"use client";
 import React from "react";
+import { useEffect, useState } from "react"
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Invoice } from "@/types/types";
+import DeleteModal from "./DeleteModal";
 import {
   Check,
   Clock,
   Pencil,
-  Trash2,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { Invoice } from "@/types/types";
-import { PrismaClient } from "@prisma/client";
-import DeleteModal from "./DeleteModal";
 
 
 export default async function Table() {
-  const prisma = new PrismaClient();
-  
-  async function getInvoices(): Promise<Invoice[]> {
-    try{
-      const Invoices = await prisma.invoice.findMany({
-        include: {
-          learner: true,
-        },
-      });
-      console.log(Invoices);
-      return Invoices;
-    } catch (error) {
-      console.error("Error fetching Invoices:", error);
-      return [];
-    }
-  }
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
 
-  const invoices = await getInvoices();
+  useEffect(() => {
+    async function fetchInvoices() {
+      try{
+        const res = await fetch('/api/invoices');
+        const invoices = await res.json();
+        setInvoices(invoices);
+      }catch(error){
+        console.error(error)
+      }
+    }
+    fetchInvoices();
+  }, []);
 
   return (
     <div className="flex flex-col w-full justify-between">
@@ -80,7 +75,7 @@ export default async function Table() {
                 <td className="md:px-6 md:py-4 px-2">
                   ${invoice.amount.toLocaleString()}
                 </td>
-                <td className="md:px-6 md:py-4 px-2">{invoice.createdAt.toLocaleDateString()}</td>
+                <td className="md:px-6 md:py-4 px-2">{new Date(invoice.createdAt).toLocaleDateString()}</td>
                 <td
                   className={`max-w-[100px] text-center font-bold flex gap-1 items-center justify-center ${
                     invoice.status === "paid" ? "bg-[#77C053] text-white" : "bg-[#dbdbdb] text-gray-600"

@@ -1,8 +1,6 @@
+import React from "react"
 import SearchBar from "@/components/SearchBar"
-import { Invoices, columns } from "./columns"
-import { DataTable } from "./data-table"
 import DashboardNav from "@/components/DashboardNav"
-import { Button } from "@/components/ui/button"
 import Table from "./components/Table"
 import Link from "next/link"
 

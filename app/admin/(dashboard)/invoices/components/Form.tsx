@@ -1,35 +1,32 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation';
 import { Calendar, UsersRound, BadgeCent, Pencil, ChevronRight } from "lucide-react";
 import { Learner } from '@/types/types';
 
-
 export default function Form() {
-  async function getLearners(): Promise<Learner[]> {
-    try {
-      const response = await fetch('/api/learners');
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching learners:", error);
-      return [];
-    }
-  }
-  
-  const [ isLoading, setIsLoading ] = useState<boolean>(false);
   const [learners, setLearners] = useState<Learner[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  React.useEffect(() => {
-    getLearners().then(setLearners);
+  useEffect(() => {
+    async function getLearners() {
+      try {
+        const response = await fetch('/api/learners');
+        setLearners(await response.json());
+      } catch (error) {
+        console.error("Error fetching learners:", error);
+      }
+    }
+    getLearners();
   }, []);
 
   async function createInvoice(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
     const formData = new FormData(event.currentTarget);
-    
+
     const learnerId = parseInt(formData.get("course") as string, 10);
     const amount = parseFloat(formData.get("amount") as string);
     const date = new Date(formData.get("date") as string).toISOString();
@@ -58,7 +55,7 @@ export default function Form() {
       }
     } catch (error) {
       console.error("Error creating invoice:", error);
-    }finally{
+    } finally {
       setIsLoading(false);
     }
   }
@@ -77,11 +74,11 @@ export default function Form() {
         </div>
         <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
           <BadgeCent size={20} />
-          <input type="text" name="amount" className="bg-transparent border-none focus:outline-none p-2" placeholder="Enter amount in USD" required/>
+          <input type="text" name="amount" className="bg-transparent border-none focus:outline-none p-2" placeholder="Enter amount in USD" required />
         </div>
         <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
           <Calendar size={20} />
-          <input type="date" name="date" className="bg-transparent border-none focus:outline-none p-2" placeholder="Collection date" required/>
+          <input type="date" name="date" className="bg-transparent border-none focus:outline-none p-2" placeholder="Collection date" required />
         </div>
         <div className="flex items-center border-b-2 border-b-primary w-full bg-white px-2">
           <UsersRound size={20} />
@@ -97,7 +94,7 @@ export default function Form() {
         <div className='w-full flex justify-end'>
           <div className='flex gap-4'>
             <Button variant={'outline'} className='bg-gray-100'>Cancel <ChevronRight /></Button>
-            <Button type="submit" className='text-white'>{isLoading ? 'Creating..': 'Create Invoice'} <ChevronRight /></Button>
+            <Button type="submit" className='text-white'>{isLoading ? 'Creating..' : 'Create Invoice'} <ChevronRight /></Button>
           </div>
         </div>
       </form>

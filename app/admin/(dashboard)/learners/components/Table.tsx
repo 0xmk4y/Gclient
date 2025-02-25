@@ -66,7 +66,7 @@ export default function Table({ learners }: { learners: Learner[] }) {
                 </th>
                 <td className="md:px-6 md:py-4 px-2">{learner.program}</td>
                 {/* <td className="md:px-6 md:py-4 px-2">${learner.}</td> */}
-                <td className="md:px-6 md:py-4 px-2">{learner.createdAt.toDateString()}</td>
+                <td className="md:px-6 md:py-4 px-2">{new Date(learner.createdAt).toDateString()}</td>
                 <td className="md:px-6 md:py-4 px-2">{learner.gender}</td>
                 <td className="text-center flex gap-3 items-center">
                   <Button
