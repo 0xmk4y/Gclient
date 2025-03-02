@@ -47,6 +47,7 @@ export async function POST(req: Request) {
         return new Response(JSON.stringify({ message:"Admin created successfull", id: newAdmin.id, first_name: newAdmin.firstName, last_name: newAdmin.lastName, email: newAdmin.email, contact: newAdmin.contact }), { status: 201 });
 
     } catch (error) {
+        console.error(error);
         return new Response(JSON.stringify({ message: "Internal server error" }), {
             status: 500,
         });

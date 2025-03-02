@@ -37,9 +37,9 @@ export default function HomeSideBar() {
                 <X onClick={toggleSidebar} className="absolute top-2 right-2 text-lg text-gray-600"/>
             </div>
             <div className='flex flex-col px-4 gap-4'>
-                <Link href="#">Home</Link>
-                <Link href="#">Courses</Link>
-                <Button variant={"outline"} className='max-w-[100px] shadow-none border-primary text-primary font-bold mt-4'>Login <span><LogIn /></span></Button>
+                <Link href="#home">Home</Link>
+                <Link href="#courses">Courses</Link>
+                <Link href={'/login'} className='max-w-[100px] text-center py-1 border-2 border-primary text-primary font-bold mt-4 hover:bg-primary hover:text-white'>Login</Link>
             </div>
             
             </div>

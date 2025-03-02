@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import SideBar from '../components/SideBar';
 import { useRouter } from 'next/navigation';
 
 
@@ -13,11 +12,9 @@ export default function Page() {
     const router = useRouter();
 
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setLoading(true);
         const formData = new FormData(event.currentTarget);
         const data = {
             firstName: formData.get('firstName'),
@@ -28,37 +25,29 @@ export default function Page() {
             contact: formData.get('contact'),
         };
 
-        try {
-            const response = await fetch('/api/admin/signup', {
+        const response = await fetch('/api/user/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-            });
+        });
 
-            if (response.ok) {
+        if (response.ok) {
             // Handle successful registration
             console.log('Registration successful');
-            router.push('/admin/login');
-            } else {
+            router.push('/user/login');
+        } else {
             // Handle registration error
+
             const errorData = await response.json();
             setError(errorData.message);
             console.error('Registration failed');
-            }
-        } catch (error) {
-            // Handle network or other errors
-            setError('An unexpected error occurred. Please try again later.');
-            console.error('An unexpected error occurred:', error);
-        }finally{
-            setLoading(false);
         }
     };
 
     return (
-        <div className='flex'>
-            <SideBar />
+        <div className='flex bg-primary md:bg-white h-full text-white'>
             <div className='flex flex-col w-full p-3'>
                 <div className='flex justify-between md:justify-end md:items-end w-full mb-[50px] space-x-3'>
                     <Image 
@@ -67,7 +56,7 @@ export default function Page() {
                         height={100}
                         width={100}
                     />
-                    <Link href={"/admin/login"} className='text-primary md:text-white bg-white md:bg-primary px-4 py-2 font-bold'>Log in<ChevronRight className='inline mb-1' size={16} /></Link>
+                    <Link href={"/login"} className='text-primary md:text-white bg-white md:bg-primary px-4 py-2 font-bold hover:bg-gray-200 md:hover:bg-primary/80'>Log in<ChevronRight className='inline mb-1' size={16} /></Link>
                 </div>
                 <div className='flex flex-col justify-center items-center w-full'>
                     <h3 className='font-bold text-white md:text-black text-[27px] mb-14 w-full text-center p-2'>Register to get started</h3>
@@ -108,7 +97,7 @@ export default function Page() {
 
                         <div className='w-full'>
                             <Button type='submit' className='bg-primary text-white py-2 px-4 mt-4 w-full'>
-                                {loading ? 'Creating    ...' : 'Create account'}
+                                Create account
                                 <ChevronRight className='inline ml-2' size={16} />
                             </Button>
                         </div>
