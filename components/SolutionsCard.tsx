@@ -12,7 +12,7 @@ interface SolutionsCardProp{
 
 export default function SolutionsCard({ icon, color,  alt, title, description, price }: SolutionsCardProp) {
   return (
-    <div className='flex flex-col gap-4 border p-4 rounded-md shadow-lg w-full md:max-w-[300px]'>
+    <div className='flex flex-col gap-4 border p-4 rounded-md shadow-lg w-full'>
         <Image
             src={icon}
             alt={alt}

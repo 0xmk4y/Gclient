@@ -30,11 +30,19 @@ const Solution = [
     title: 'Cloud Computing Expertise',
     description: 'Gain hands-on experience in cloud architecture and deployment, preparing you to design, implement, and manage scalable cloud solutions in the real world.',
     price: '300'
+  },
+  {
+    icon: '/cyber-security.svg',
+    color: '#FFE4E1',
+    alt: 'Cybersecurity Fundamentals',
+    title: 'Cybersecurity Fundamentals',
+    description: 'Learn the essentials of cybersecurity, including threat analysis, risk management, and securing systems against cyber attacks.',
+    price: '400'
   }
 ]
 export default function page() {
   return (
-    <div>
+    <div className='container mx-auto'>
         <NavBar />
         <Hero />
 
@@ -42,7 +50,7 @@ export default function page() {
         <div className='w-full flex flex-col items-center mt-10' id="home">
             <h2 className='text-[40px] font-bold'>Our Solutions</h2>
             <p className='text-center'>Create your account quickly with just your email or social media login, then explore a wide range </p>
-            <div className='flex gap-4 flex-wrap justify-center mt-4 p-3'>
+            <div className='flex gap-4 justify-center mt-4 p-3 w-full'>
               {Solution.map((solution, index) => (
                 <SolutionsCard
                   key={index}

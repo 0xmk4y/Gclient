@@ -16,7 +16,7 @@ export default function NavBar() {
     return (
         <div className='flex items-center'>
             {/* Desktop */}
-            <div className='hidden md:flex w-full gap-8 items-center justify-between mx-[200px] py-2'>
+            <div className='hidden md:flex w-full gap-8 items-center justify-between px-2 py-2'>
                 <div className='flex items-center gap-4'>
                     <Image
                         src='/logo-2.svg'
