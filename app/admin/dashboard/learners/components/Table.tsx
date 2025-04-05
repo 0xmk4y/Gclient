@@ -1,10 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/app/utils/supabase/client";
 import { Eye, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Learner } from "@/types/types";
 import DeleteModal from "./DeleteModal";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 
 export default function Table({ learners }: { learners: Learner[] }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +37,24 @@ export default function Table({ learners }: { learners: Learner[] }) {
   const indexOfLastLearner = currentPage * learnersPerPage;
   const indexOfFirstLearner = indexOfLastLearner - learnersPerPage;
   const currentLearners = learners.slice(indexOfFirstLearner, indexOfLastLearner);
+  const router = useRouter();
+
+    const deleteLearner = async (id: string) => {
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("learners")
+        .delete()
+        .eq("id", id); // Deleting the invoice by id
+  
+      if (error) {
+        console.error("Error deleting learner:", error);
+      } else {
+        router.push("/admin/dashboard/learners")
+        // Successfully deleted, remove it from the state
+        // setInvoices((prevInvoices) => prevInvoices.filter((invoice) => invoice.id !== id));
+      }
+    };
+
 
   return (
     <div className="flex flex-col w-full justify-between">
@@ -83,7 +116,24 @@ export default function Table({ learners }: { learners: Learner[] }) {
                   >
                     <Pencil color="#77C053" />
                   </Button>
-                  <DeleteModal id={learner.id} />
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild className="h-8 w-8 p-2 bg-[#F7E9EA] hover:bg-red-100">
+                      <Trash2 color="#A61D24" className="p-1" />
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-white">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently delete this
+                          learner and associated invoices.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => deleteLearner(learner.id.toString())}>Continue</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </td>
               </tr>
             ))}

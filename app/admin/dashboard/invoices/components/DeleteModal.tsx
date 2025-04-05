@@ -1,5 +1,7 @@
 "use client"
 import React from "react";
+import { useEffect } from "react";
+import { createClient } from "@/app/utils/supabase/client";
 import { Trash2 } from "lucide-react";
 
 import {
@@ -18,27 +20,23 @@ import { useRouter } from "next/navigation";
 export default function DeleteModal({ id }: { id: string }) {
     const router = useRouter();
 
-    async function DeleteInvoice(id: string) {
-        try {
-            const response = await fetch(`/api/invoices`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id }),
-            });
+    const deleteInvoice = async (id: string) => {
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("invoices")
+        .delete()
+        .eq("id", id); // Deleting the invoice by id
+  
+      if (error) {
+        console.error("Error deleting invoice:", error);
+      } else {
+        router.push("/admin/dashboard/invoices")
+        // Successfully deleted, remove it from the state
+        // setInvoices((prevInvoices) => prevInvoices.filter((invoice) => invoice.id !== id));
+      }
+    };
+      
 
-            if (!response.ok) {
-                throw new Error('Failed to delete the invoice');
-            }
-            router.refresh();
-            // Handle successful deletion (e.g., show a success message, redirect, etc.)
-            console.log('Invoice deleted successfully');
-        } catch (error) {
-            // Handle error (e.g., show an error message)
-            console.error('Error deleting invoice:', error);
-        }
-    }
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild className="p-1 bg-[#F7E9EA] hover:bg-red-100">
@@ -54,7 +52,7 @@ export default function DeleteModal({ id }: { id: string }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => DeleteInvoice(id)}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={() => deleteInvoice(id)}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

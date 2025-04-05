@@ -7,7 +7,7 @@ import { Invoice, Learner } from "@/types/types";
 import RevenuesGraph from "./components/RevenuesGraph";
 import LatestInvoiceGraph from "./components/LatestInvoiceGraph";
 import Welcome from "./components/Welcome";
-
+import { createClient } from "@/app/utils/supabase/client";
 
 export default async function Page() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -17,40 +17,66 @@ export default async function Page() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const invoiceRes = await fetch('/api/invoices');
-        const learnerRes = await fetch('/api/learners');
-        const invoices = await invoiceRes.json();
-        const learners = await learnerRes.json();
-        setInvoices(invoices);
-        setLearners(learners);
+        const supabase = createClient();
 
-        const totalAmount: number = invoices.reduce((sum: number, invoice: Invoice) => sum + invoice.amount, 0);
-        const paidInvoices: Invoice[] = invoices.filter((invoice: Invoice) => invoice.status === 'paid');
-        const totalPaidAmount = paidInvoices.reduce((sum, invoice) => sum + invoice.amount, 0);
-        const pendInvoices: Invoice[] = invoices.filter((invoice: Invoice) => invoice.status === 'pending');
-        const totalPendAmount = pendInvoices.reduce((sum, invoice) => sum + invoice.amount, 0);
-        const totalLearners = learners.length;
+        // Fetch invoices and learners in parallel
+        const [invoiceResponse, learnerResponse] = await Promise.all([
+          supabase.from("invoices").select("*, learner_id:learners(*)"),
+          supabase.from("learners").select("*"),
+        ]);
 
+        if (invoiceResponse.error) throw invoiceResponse.error;
+        if (learnerResponse.error) throw learnerResponse.error;
+
+        const invoiceData = invoiceResponse.data;
+        const learnerData = learnerResponse.data;
+
+        // Set invoices and learners in state
+        setInvoices(invoiceData);
+        setLearners(learnerData);
+
+        // Calculate totals
+        const totalAmount: number = invoiceData.reduce(
+          (sum: number, invoice: Invoice) => sum + invoice.amount,
+          0
+        );
+        const paidInvoices: Invoice[] = invoiceData.filter(
+          (invoice: Invoice) => invoice.status === "paid"
+        );
+        const totalPaidAmount = paidInvoices.reduce(
+          (sum, invoice) => sum + invoice.amount,
+          0
+        );
+        const pendInvoices: Invoice[] = invoiceData.filter(
+          (invoice: Invoice) => invoice.status === "pending"
+        );
+        const totalPendAmount = pendInvoices.reduce(
+          (sum, invoice) => sum + invoice.amount,
+          0
+        );
+        const totalLearners = learnerData.length;
+
+        // Set the final data for display
         setData([
           {
             icon: Banknote,
             title: "Collected",
-            total: '$' + totalPaidAmount.toString()
+            total: "$" + totalPaidAmount.toString(),
           },
           {
             icon: Clock,
             title: "Pending",
-            total: '$' + totalPendAmount.toString()
+            total: "$" + totalPendAmount.toString(),
           },
           {
             icon: Scroll,
             title: "Total invoices",
-            total: '$' + totalAmount.toString()
+            total: "$" + totalAmount.toString(),
           },
           {
             icon: UsersRound,
             title: "Total learners",
-            total: totalLearners.toString()
+            total: totalLearners.toString(),
           },
         ]);
       } catch (error) {
