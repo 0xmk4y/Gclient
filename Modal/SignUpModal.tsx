@@ -140,9 +140,13 @@ export default function SignUpModal() {
                 )}
 
                 <div className='w-full'>
-                    <Button type='submit' className='bg-primary text-white py-2 px-4 mt-4 w-full'>
-                        Create account
-                        <ChevronRight className='inline ml-2' size={16} />
+                    <Button 
+                        type='submit' 
+                        className='bg-primary text-white py-2 px-4 mt-4 w-full' 
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'Creating account...' : 'Create account'}
+                        {!isSubmitting && <ChevronRight className='inline ml-2' size={16} />}
                     </Button>
                 </div>
             </form>
