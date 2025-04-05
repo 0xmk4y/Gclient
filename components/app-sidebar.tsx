@@ -19,27 +19,27 @@ import Image from "next/image";
 const items = [
   {
     title: "Dashboard",
-    url: "/admin/dashboard",
+    url: "/admin/dashboard/view",
     icon: Home,
   },
   {
     title: "Invoices",
-    url: "/admin/invoices",
+    url: "/admin/dashboard/invoices",
     icon: Scroll,
   },
   {
     title: "Learners",
-    url: "/admin/learners",
+    url: "/admin/dashboard/learners",
     icon: UsersRound,
   },
   {
     title: "Courses",
-    url: "/admin/courses",
+    url: "/admin/dashboard/courses",
     icon: GraduationCap,
   },
   {
     title: "Report",
-    url: "/admin/report",
+    url: "/admin/dashboard/report",
     icon: Flag,
   },
 ];
@@ -78,7 +78,7 @@ export function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="/admin/settings" className="text-xl">
+                <a href="/admin/dashboard/settings" className="text-xl">
                   <Calendar />
                   <span>Settings</span>
                 </a>
@@ -86,7 +86,7 @@ export function AppSidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href="/api/admin/logout" className="text-xl">
+                <a href="/api/admin/dashboard/logout" className="text-xl">
                   <Calendar />
                   <span>Logout</span>
                 </a>

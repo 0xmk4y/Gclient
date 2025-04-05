@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Invoice } from "@/types/types";
 import DeleteModal from "./DeleteModal";
+import { createClient } from "@/app/utils/supabase/client";
 import {
   Check,
   Clock,
@@ -15,17 +16,16 @@ import {
 
 
 export default async function Table() {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [invoices, setInvoices] = useState<any[]>([]);
 
   useEffect(() => {
     async function fetchInvoices() {
-      try{
-        const res = await fetch('/api/invoices');
-        const invoices = await res.json();
-        setInvoices(invoices);
-      }catch(error){
-        console.error(error)
-      }
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("invoices")
+        .select("*, learner_id:learners(*)");
+        console.log(data)
+      if (data) setInvoices(data);
     }
     fetchInvoices();
   }, []);
@@ -68,21 +68,22 @@ export default async function Table() {
                     className="rounded-full"
                   />
                   <div className="ps-3">
-                    <div className="">{invoice.learner.firstName + " " + invoice.learner.lastName}</div>
+                    <div className="">{invoice.learner_id.firstname + " " + invoice.learner_id.lastname}</div>
                   </div>
                 </th>
-                <td className="md:px-6 md:py-4 px-2">{invoice.learner.email}</td>
+                <td className="md:px-6 md:py-4 px-2">{invoice.learner_id.email}</td>
                 <td className="md:px-6 md:py-4 px-2">
                   ${invoice.amount.toLocaleString()}
                 </td>
-                <td className="md:px-6 md:py-4 px-2">{new Date(invoice.createdAt).toLocaleDateString()}</td>
+                <td className="md:px-6 md:py-4 px-2">{new Date(invoice.createdat).toDateString()}</td>
                 <td
-                  className={`max-w-[100px] text-center font-bold flex gap-1 items-center justify-center ${
-                    invoice.status === "paid" ? "bg-[#77C053] text-white" : "bg-[#dbdbdb] text-gray-600"
-                  } py-2`}
+                  className={`max-w-[100px] text-center font-bold m-3 py-2`}
                 >
-                  <p>{invoice.status}</p>
-                  {invoice.status === "paid" ? <Check size={18} /> : <Clock size={18} />}
+                  <div className={`flex items-center justify-center gap-2 p-3 ${invoice.status === "paid" ? "bg-[#77C053] text-white" : "bg-[#dbdbdb] text-gray-600"
+                    } `}>
+                    <p>{invoice.status}</p>
+                    {invoice.status === "paid" ? <Check size={18} /> : <Clock size={18} />}
+                  </div>
                 </td>
                 <td className="text-center">
                   <Button
@@ -94,7 +95,7 @@ export default async function Table() {
                   </Button>
                 </td>
                 <td className="text-center">
-                  <DeleteModal id={invoice.id.toString()}/>
+                  <DeleteModal id={invoice.id.toString()} />
                 </td>
               </tr>
             ))}

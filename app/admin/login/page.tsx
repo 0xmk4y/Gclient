@@ -43,7 +43,7 @@ export default function Page() {
             const admin = res.admin;
             localStorage.setItem('admin', JSON.stringify(admin));
       
-            router.push('/admin/dashboard');
+            router.push('/admin/dashboard/view');
           } catch (error: any) {
             console.error('An error occurred:', error);
             setError(error.message || 'An unexpected error occurred');

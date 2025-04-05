@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/app/utils/supabase/server";
 
 export async function POST(req: Request) {
     try {
@@ -17,12 +17,18 @@ export async function POST(req: Request) {
                 message: error.message
             }), { status: 400 });
         }
-
-        return new Response(JSON.stringify({
-            success: true,
-            message: 'Login successful',
-            user: data.user
-        }), { status: 200 });
+        if (data.user.user_metadata.isAdmin){
+          return new Response(JSON.stringify({
+              success: true,
+              message: 'Login successful',
+              user: data.user
+          }), { status: 200 });
+        }else{
+          return new Response(JSON.stringify({
+              success: false,
+              message: 'User is not an admin'
+          }), { status: 403 });
+        }
 
     } catch (err: any) {
         console.error('Server error:', err);

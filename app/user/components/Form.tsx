@@ -9,7 +9,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
+import { createClient } from '@/app/utils/supabase/client'
 import { Course } from '@/types/types'
 
 import {

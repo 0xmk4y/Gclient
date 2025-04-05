@@ -56,7 +56,7 @@ export default function Form() {
     if (response.ok) {
       // Handle successful creation
       console.log('Learner created successfully');
-      router.push('/admin/learners');
+      router.push('/admin/dashboard/learners');
     } else {
       // Handle creation error
       console.error('Failed to create learner');

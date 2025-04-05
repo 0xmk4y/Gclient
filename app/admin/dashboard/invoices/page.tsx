@@ -16,7 +16,7 @@ export default async function page() {
         <h3 className="font-bold mb-8">Invoices</h3>
         <div className="flex gap-8 mb-8">
           <SearchBar placeholder="Search Invoice" />
-            <Link href="/admin/invoices/create-invoice" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create invoice</Link>
+            <Link href="/admin/dashboard/invoices/create-invoice" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create invoice</Link>
         </div>
         <Table />
       </div>

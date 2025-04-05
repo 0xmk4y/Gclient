@@ -39,14 +39,29 @@ export const updateSession = async (request: NextRequest) => {
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser();
 
-    // dashboard routes
-    if (request.nextUrl.pathname.startsWith("/user") && user.error) {
-      return NextResponse.redirect(new URL("/", request.url));
+    // Dashboard route guards
+    if (request.nextUrl.pathname.startsWith("/user")) {
+      if (user.error) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    }
+
+    if (request.nextUrl.pathname.startsWith("/admin/dashboard")) {
+      // If there's an error getting the user (e.g. not logged in)
+      if (user.error) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+
+      // If user exists but is not an admin
+      const isAdmin = user.data?.user?.user_metadata?.isAdmin;
+      if (!isAdmin) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
     }
     // if (request.nextUrl.pathname.startsWith("/admin") && user.error) {
     //   return NextResponse.redirect(new URL("/", request.url));
     // }
-    
+
 
     return response;
   } catch (e) {

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { X } from 'lucide-react';
+import { useEffect } from 'react';
 
 interface Admin {
     firstName: string;
@@ -12,15 +13,15 @@ interface Admin {
 
 export default function ProfileSideBar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [adminData, setAdminData] = useState<Admin | null>(null);
-
-
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const admin = localStorage.getItem('admin');
-            setAdminData(admin ? JSON.parse(admin) : null);
+    const [user, setUser] = useState<any>(null);
+    
+      useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
         }
-    }, []);
+      }, []);
+    
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -36,7 +37,7 @@ export default function ProfileSideBar() {
                 height={50}
                 className='rounded-full w-10 h-10'
             />
-            <p className='text-black'>{adminData?.firstName + " " + adminData?.lastName}</p>
+            <p className='text-black'>{user?.user_metadata.firstName + " " + user?.user_metadata.lastName}</p>
             </Button>
             {isOpen && (
             <div className="fixed inset-0 bg-black opacity-50 z-40" onClick={toggleSidebar}></div>
@@ -53,8 +54,8 @@ export default function ProfileSideBar() {
                 />
             </div>
             <div className="mt-20 flex flex-col items-center">
-                <h2 className="text-xl">{adminData?.firstName + " " + adminData?.lastName}</h2>
-                <p>{adminData?.email}</p>
+                <h2 className="text-xl">{user?.user_metadata.firstName + " " + user?.user_metadata.lastName}</h2>
+                <p>{user?.email}</p>
                 <div className='px-4 w-full mt-4'>
                     <hr className='border-t border-gray-300 w-full' />
                 </div>

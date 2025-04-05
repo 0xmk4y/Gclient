@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/admin/(dashboard)/learners/create-learner/components"
+    "app/admin/dashboard/learners/create-learner/components"
   ],
   "exclude": ["node_modules"]
 }

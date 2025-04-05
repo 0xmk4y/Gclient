@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import { Course } from "@/types/types";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/app/utils/supabase/client";
 
 export default async function Courses() {
   const [courses, setCourses] = useState<Course[]>([]);

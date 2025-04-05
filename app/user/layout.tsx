@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar"
 import { LayoutDashboard } from "lucide-react"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { createClient } from "@/utils/supabase/client"
+import { createClient } from "@/app/utils/supabase/client"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();

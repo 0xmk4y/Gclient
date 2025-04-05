@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/app/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 
 import {

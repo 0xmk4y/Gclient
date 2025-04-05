@@ -14,7 +14,7 @@ export default function page() {
         <h3 className="font-bold mb-8">Courses</h3>
         <div className="flex gap-8 mb-8">
           <SearchBar placeholder="Search courses" />
-            <Link href="/admin/courses/create-course" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create course</Link>
+            <Link href="/admin/dashboard/courses/create-course" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create course</Link>
         </div>
         <div>
           <Courses />

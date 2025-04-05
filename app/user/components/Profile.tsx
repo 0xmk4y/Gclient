@@ -1,24 +1,21 @@
 "use client"
 import React from 'react'
-import { useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/app/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import { User } from '@supabase/supabase-js';
 
 export default function Profile() {
-    const [user, setUser] = React.useState<User>();
-    useEffect(() => {
-          const checkUser = async () => {
-            const supabase = createClient();
-            const { data: { user } } = await supabase.auth.getUser();
-            
-            if (user) {
-                setUser(user);
-            } 
-                };
-          checkUser();
-        }, []);
+    const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   return (
     <div className='flex flex-col md:flex-row gap-8 md:items-center text-[16px] p-4 my-6'>
         <Image 

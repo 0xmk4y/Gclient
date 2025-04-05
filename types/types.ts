@@ -31,20 +31,20 @@ export type Course = {
 
 export type Invoice = {
   id: number;
-  learnerId: number;
+  learner_id: number;
   learner: Learner;
   amount: number;
   date: Date;
   status: string;
   details: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdat: Date;
+  updatedat: Date;
 };
 
 export type Learner = {
   id: number;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   program: string;
   gender: string;
@@ -53,8 +53,8 @@ export type Learner = {
   disabled: boolean;
   image: string;
   description: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdat: Date;
+  updatedat: Date;
 };
 
 
