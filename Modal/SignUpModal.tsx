@@ -7,61 +7,19 @@ import { User2, Mail, Lock, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useModalStore } from '@/Store/ModalStore';
+import { useActionState } from 'react';
+import { signup } from '@/app/signup/action';
 
-interface ActiveProps {
-    setActive: React.Dispatch<React.SetStateAction<string>>;
-}
+const initialState = {
+    success: false,
+    message: '',
+  }
 
-export default function SignUpModal({ setActive }: ActiveProps) {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-
-    const router = useRouter();
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setIsLoading(true);
-        setError(null);
-
-        const formData = new FormData(event.currentTarget);
-        const data = {
-            firstName: formData.get('firstName'),
-            lastName: formData.get('lastName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            confirmPass: formData.get('confirmPassword'),
-        };
-
-        try {
-            const response = await fetch('/api/user/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                // Handle successful signup
-                console.log('Signup successful');
-                const responseData = await response.json();
-                localStorage.setItem('user', JSON.stringify(responseData.user));
-                router.push('/user/dashboard');
-            } else {
-                // Handle signup error
-                const errorData = await response.json();
-                setError(errorData.message || 'Signup failed');
-                console.error('Signup failed');
-            }
-        } catch (error) {
-            setError('An unexpected error occurred');
-            console.error('An unexpected error occurred', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-
+export default function SignUpModal() {
+        const setActive = useModalStore((state) => state.setActive);
+        const [state, formAction, pending] = useActionState(signup, initialState)
+        
 
     return (
         <div className='bg-white text-black border p-4 absolute z-50' style={{ top: '50px', right: '200px', width: '400px' }}>
@@ -71,9 +29,9 @@ export default function SignUpModal({ setActive }: ActiveProps) {
                 <p className='text-primary font-bold'>Login using Google</p>
             </button>
             <p className='text-center my-4'>or</p>
-            {error && <p className="text-red-500 text-center">{error}</p>}
+            {/* {error && <p className="text-red-500 text-center">{error}</p>} */}
 
-            <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+            <form action={formAction} className='flex flex-col gap-4'>
                 <div className='flex gap-2'>
                     <div className='border flex items-center px-2 py-2 bg-gray-100 rounded-md'>
                         <User2 size={20} />
@@ -97,12 +55,13 @@ export default function SignUpModal({ setActive }: ActiveProps) {
                     <input type="password" name="confirmPassword" className='focus:outline-none px-2 bg-transparent w-full' placeholder='Confirm password' required />
                 </div>
                 <Button type="submit" className='font-bold'>
-                    <span>{ isLoading ? 'Loading..' : 'Sign up'}</span>
+                    {/* <span>{ isLoading ? 'Loading..' : 'Sign up'}</span> */}
+                    Sign up
                     <ChevronRight />
                 </Button>
                 <div className='flex items-center justify-center gap-1'>
                     <p>Already have an account?</p>
-                    <Link href="#" className='text-primary' onClick={() => setActive("login")}>Log in</Link>
+                    <Link href="#" className='text-primary' onClick={() => setActive('login')}>Log in</Link>
                 </div>
             </form>
         </div>

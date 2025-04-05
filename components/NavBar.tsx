@@ -6,12 +6,16 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import { LogIn } from 'lucide-react';
 import useLoginModalStore from '@/store/LoginModal';
+import { useModalStore } from '@/Store/ModalStore';
+import SignUpModal from '@/Modal/SignUpModal';
+import ForgotPasswword from '@/Modal/ForgotPasswword';
+import Otp from '@/Modal/Otp';
 import LoginModal from '@/Modal/LoginModal';
 
 export default function NavBar() {
-    const loginModal = useLoginModalStore((state) => state.isOpen);
-    const openLoginModal = useLoginModalStore((state) => state.openModal);
-    const closeLoginModal = useLoginModalStore((state) => state.closeModal);
+    const active = useModalStore((state) => state.active);
+    const setActive = useModalStore((state) => state.setActive);
+
 
     return (
         <div className='flex items-center'>
@@ -40,13 +44,23 @@ export default function NavBar() {
                         </Link>
                     </div>
                 </div>
-                <Button className='max-w-[100px] shadow-none text-white font-bold rounded-md' onClick={openLoginModal}>Login <span><LogIn /></span></Button>
-                {loginModal && (
-                    <>
-                        <div className='fixed inset-0 z-40 w-full' onClick={closeLoginModal}></div>
-                        <LoginModal />
-                    </>
-                )}
+                <Button className='max-w-[100px] shadow-none text-white font-bold rounded-md' onClick={() => setActive('login')}>Login <span><LogIn /></span></Button>
+                <div 
+                    className={`fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 ${active ? '' : 'hidden'}`}
+                    onClick={() => setActive(null)}
+                >
+                    <div 
+                        className='p-4 rounded-md shadow-md'
+                        onClick={(e) => e.stopPropagation()} // Prevent click from propagating to the parent div
+                    >
+                        {
+                            active === 'login' ? <LoginModal /> : 
+                            active === 'signup' ? <SignUpModal /> : 
+                            active === 'forgot-pass' ? <ForgotPasswword /> : 
+                            active === 'otp' ? <Otp /> : null
+                        }
+                    </div>
+                </div>
             </div>
 
             {/* Mobile */}

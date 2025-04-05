@@ -1,50 +1,19 @@
 "use client";
 import React from 'react'
 import { User, Mail, ChevronRight, Lock, Phone } from 'lucide-react';
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { signup } from './action';
+import { useActionState } from 'react'
 
-
+const initialState = {
+    success: false,
+    message: '',
+  }
+  
 export default function Page() {
-    const router = useRouter();
-
-    const [error, setError] = useState('');
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const data = {
-            firstName: formData.get('firstName'),
-            lastName: formData.get('lastName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            confirmPass: formData.get('confirmPass'),
-            contact: formData.get('contact'),
-        };
-
-        const response = await fetch('/api/user/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
-            // Handle successful registration
-            console.log('Registration successful');
-            router.push('/user/login');
-        } else {
-            // Handle registration error
-
-            const errorData = await response.json();
-            setError(errorData.message);
-            console.error('Registration failed');
-        }
-    };
+    const [state, formAction, pending] = useActionState(signup, initialState)
 
     return (
         <div className='flex bg-primary md:bg-white h-full text-white'>
@@ -60,7 +29,7 @@ export default function Page() {
                 </div>
                 <div className='flex flex-col justify-center items-center w-full'>
                     <h3 className='font-bold text-white md:text-black text-[27px] mb-14 w-full text-center p-2'>Register to get started</h3>
-                    <form action="" onSubmit={handleSubmit} className='text-sm w-full md:max-w-[500px] p-3 bg-white text-gray-400'>
+                    <form action={formAction} className='text-sm w-full md:max-w-[500px] p-3 bg-white text-gray-400'>
                         <div className='flex flex-col md:flex-row gap-2'>
                             <div className='flex items-center border dark:border-gray-500 border-b-2 border-b-primary mb-8 bg-gray-100'>
                                 <User className='mx-1 dark:text-primary' />
@@ -89,15 +58,15 @@ export default function Page() {
                             <Phone className='mx-1 dark:text-primary' />
                             <input type="text" name='contact' placeholder='Contact' className='p-2 w-full focus:ring-0 outline-none bg-transparent text-black' />
                         </div>
-                        {error && (
+                        {/* {error && (
                             <div className='text-red-500 mb-4 text-center'>
                                 <p>{error}</p>
                             </div>
-                        )}
+                        )} */}
 
                         <div className='w-full'>
                             <Button type='submit' className='bg-primary text-white py-2 px-4 mt-4 w-full'>
-                                Create account
+                                {pending ? 'Loading...' : 'Create account'}
                                 <ChevronRight className='inline ml-2' size={16} />
                             </Button>
                         </div>

@@ -50,7 +50,7 @@ export default function page() {
         <div className='w-full flex flex-col items-center mt-10' id="home">
             <h2 className='text-[40px] font-bold'>Our Solutions</h2>
             <p className='text-center'>Create your account quickly with just your email or social media login, then explore a wide range </p>
-            <div className='flex gap-4 justify-center mt-4 p-3 w-full'>
+            <div className='flex gap-4 justify-center mt-4 w-full p-3'>
               {Solution.map((solution, index) => (
                 <SolutionsCard
                   key={index}
