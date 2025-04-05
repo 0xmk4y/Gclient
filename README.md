@@ -66,3 +66,6 @@ Interested in contributing? Feel free to fork the repository and submit a pull r
 
 🚀 Happy Coding! 🎉
 
+
+
+middleware and route auth

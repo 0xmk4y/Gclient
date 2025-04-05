@@ -5,7 +5,7 @@ import { Button } from './ui/button'
 export default function Hero() {
   return (
     <div className='flex flex-col-reverse md:flex-row  w-full bg-[#01589A] text-white items-center py-10'>
-      <div className='flex flex-col-reverse md:flex-row  w-full bg-[#01589A] text-white items-center justify-between py-10 md:mx-[180px]  xl:mx-[300px]'>
+      <div className='flex flex-col-reverse md:flex-row  w-full bg-[#01589A] text-white items-center justify-between py-10 mx-[100px] xl:mx-[200px]'>
           <div className='max-w-[350px]'>
               <h1 className='text-[30px] leading-8 font-bold mb-4'>Unlock Your Potential with 
               Industry-Leading Courses!</h1>

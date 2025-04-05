@@ -1,9 +1,28 @@
+"use client"
 import Footer from "@/components/Footer"
 import Application from "./components/Application"
 import NavBar from "./components/NavBar"
 import { LayoutDashboard } from "lucide-react"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { createClient } from "@/utils/supabase/client"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
+  
+    useEffect(() => {
+      const checkUser = async () => {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          router.push("/");
+        } else {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
+            };
+      checkUser();
+    }, [router]);
   return (
     <div className="flex flex-col min-h-screen">
         <div className="flex-grow">

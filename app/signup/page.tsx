@@ -1,10 +1,10 @@
 "use client";
-import React from 'react';
+import React from 'react'
 import { User, Mail, ChevronRight, Lock, Phone } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form"
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -31,8 +31,7 @@ export default function Page() {
         formState: { errors, isSubmitting },
     } = useForm<FormData>({
         resolver: zodResolver(schema)
-    });
-
+    })
     const signup: SubmitHandler<FormData> = async (data) => {
         try {
             const response = await fetch('/api/user/signup', {
@@ -48,7 +47,7 @@ export default function Page() {
                 throw new Error(errorData.message || 'Failed to sign up');
             }
 
-            router.push('/login');
+            router.push('/login'); 
         } catch (err: any) {
             setError("root", { message: err.message || "Error submitting form" });
         }
@@ -138,12 +137,13 @@ export default function Page() {
                         )}
 
                         <div className='w-full'>
-                            <Button type='submit' disabled={isSubmitting} className='bg-primary text-white py-2 px-4 mt-4 w-full'>
+                            <Button type='submit' className='bg-primary text-white py-2 px-4 mt-4 w-full'>
                                 Create account
                                 <ChevronRight className='inline ml-2' size={16} />
                             </Button>
                         </div>
                     </form>
+
                 </div>
                 <div className='text-center mt-6 text-sm'>
                     <p>By confirming your email, you agree to our Terms of Service</p>
@@ -151,5 +151,5 @@ export default function Page() {
                 </div>
             </div>
         </div>
-    );
+    )
 }

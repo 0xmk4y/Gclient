@@ -1,55 +1,42 @@
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
-
-const prisma = new PrismaClient();
+import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: Request) {
-    console.log("Signup API");
-    const { firstName, lastName, email, password, confirmPass, contact } = await req.json();
-
-    if (!firstName || !lastName || !email || !password || !confirmPass || !contact) {
-        return new Response(
-            JSON.stringify({ message: "All fields are required" }),
-            { status: 400 }
-        );
-    }
-
-    if (password !== confirmPass) {
-        return new Response(
-            JSON.stringify({ message: "Passwords do not match" }),
-            { status: 400 }
-        );
-    }
-
     try {
-        const existingAdmin = await prisma.admin.findUnique({
-            where: { email },
-        });
+        const body = await req.json();
 
-        if (existingAdmin) {
-            return new Response(JSON.stringify({ message: "Admin already exists" }), {
-                status: 409,
-            });
-        }
+        const { firstName, lastName, email, password, contact } = body;
+        const isAdmin = true
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const supabase = await createClient();
 
-        const newAdmin = await prisma.admin.create({
-            data: {
-                firstName,
-                lastName,
-                email,
-                password: hashedPassword,
-                contact,
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: { firstName, lastName, contact, isAdmin },
             },
         });
+        console.log('Supabase response:', data);
 
-        return new Response(JSON.stringify({ message:"Admin created successfull", id: newAdmin.id, first_name: newAdmin.firstName, last_name: newAdmin.lastName, email: newAdmin.email, contact: newAdmin.contact }), { status: 201 });
+        if (error) {
+            console.error('Supabase error:', error.message);
+            return new Response(JSON.stringify({
+                success: false,
+                message: error.message
+            }), { status: 400 });
+        }
 
-    } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({ message: "Internal server error" }), {
-            status: 500,
-        });
+        return new Response(JSON.stringify({
+            success: true,
+            message: 'Signup successful',
+            user: data.user
+        }), { status: 200 });
+
+    } catch (err: any) {
+        console.error('Server error:', err);
+        return new Response(JSON.stringify({
+            success: false,
+            message: 'Internal server error'
+        }), { status: 500 });
     }
 }

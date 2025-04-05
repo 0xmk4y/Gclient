@@ -1,47 +1,43 @@
-import { PrismaClient } from '@prisma/client';
+import { createClient } from "@/utils/supabase/server";
 
-const prisma = new PrismaClient();
-
-export async function GET(){
+export async function POST(req: Request) {
     try {
-        const learners = await prisma.learner.findMany();
-        return new Response(JSON.stringify(learners), { status: 200 });
-    } catch (error) {
-        console.error(error);
-        return new Response('Internal Server Error', { status: 500 });
-    }
-}
+        const body = await req.json();
 
-export async function DELETE(req: Request) {
-    try {
-        const { id } = await req.json()
-        if (!id) {
-            return new Response('Learner ID is required', { status: 400 });
-        }
-        console.log(id)
+        const { firstname, user_id, lastname, email, location, program, gender, disabled, phone, description} = body;
 
-        const invoices = await prisma.invoice.findMany({
-            where: {
-            learnerId: id
-            }
+        const supabase = await createClient();
+        const { data, error } = await supabase.from("learners").insert({
+            firstname,
+            user_id,
+            lastname,
+            email,
+            location,
+            program,
+            gender,
+            disabled,
+            phone,
+            description
         });
-
-        for (const invoice of invoices) {
-            await prisma.invoice.delete({
-            where: {
-                id: invoice.id
-            }
-            });
+        if (error) {
+            console.error('Supabase error:', error.message);
+            return new Response(JSON.stringify({
+                success: false,
+                message: error.message
+            }), { status: 400 });
         }
+        console.log(data)
+        return new Response(JSON.stringify({
+            success: true,
+            message: 'Created',
+            // user: data.user
+        }), { status: 200 });
 
-        const learner = await prisma.learner.delete({
-            where: {
-            id: Number(id),
-            },
-        });
-        return new Response(JSON.stringify(learner), { status: 200 });
-    } catch (error) {
-        console.error(error);
-        return new Response('Internal Server Error', { status: 500 });
+    } catch (err: any) {
+        console.error('Server error:', err);
+        return new Response(JSON.stringify({
+            success: false,
+            message: 'Internal server error'
+        }), { status: 500 });
     }
 }

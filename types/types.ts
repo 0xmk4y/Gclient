@@ -25,7 +25,6 @@ export type Course = {
   price: number;
   duration: string;
   instructor: string;
-  learners: number;
   createdAt: Date;
   updatedAt: Date;
 };

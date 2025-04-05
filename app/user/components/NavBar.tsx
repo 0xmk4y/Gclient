@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 import {
     DropdownMenu,
@@ -15,20 +17,34 @@ import {
   } from "@/components/ui/dropdown-menu"
 
   
-export default function NavBar() {
-    interface User {
-        firstName: string;
-        lastName: string;
-    }
-
-    const [userData, setUserData] = useState<User | null>(null);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const user = localStorage.getItem('user');
-            setUserData(user ? JSON.parse(user) : null);
+  export default function NavBar() {
+      const router = useRouter()
+      interface User {
+          firstName: string;
+          lastName: string;
         }
+        
+        const [userData, setUserData] = useState<User | null>(null);
+        
+    useEffect(() => {
+        const checkUser = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            setUserData({
+                firstName: user?.user_metadata.firstName,
+                lastName: user?.user_metadata.lastName
+            })
+        };
+        
+        checkUser();
     }, []);
+    
+    async function logout(){
+        const supabase = createClient()
+        const { error } = await supabase.auth.signOut()
+        router.push('/')
+        console.log(error)
+    }
 
     return (
         <div className='flex items-center'>
@@ -50,10 +66,10 @@ export default function NavBar() {
                         <DropdownMenuContent className='bg-white w-[100px] '>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
-                                <Link href="/api/user/logout" className='hover:underline text-center flex items-center gap-2'>
+                                <button onClick={() => logout()} className='hover:underline text-center flex items-center gap-2'>
                                     <LogOut size={"15px"} />
                                     <p>Logout</p>
-                                </Link>
+                                </button>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

@@ -9,11 +9,10 @@ interface programProp{
     price: number
     duration: string
     instructor: string
-    learners: number
 }
-export default function programCard({ logo, program, price, duration, instructor, learners}: programProp) {
+export default function programCard({ logo, program, price, duration, instructor}: programProp) {
   return (
-    <div className='w-full md:max-w-[300px] border shadow-md'>
+    <div className='w-full border shadow-md'>
         <Image 
             src={logo}
             alt="program"
@@ -35,10 +34,6 @@ export default function programCard({ logo, program, price, duration, instructor
                 <div className='flex justify-between items-center border-b py-2'>
                     <p>Instructor:</p>
                     <p className='font-bold'>{instructor}</p>
-                </div>
-                <div className='flex justify-between items-center py-2'>
-                    <p>Learners:</p>
-                    <p className='font-bold'>{learners}</p>
                 </div>
             </div>
         <Button className='text-white font-bold my-3'>View More <ChevronRight /></Button>

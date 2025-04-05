@@ -33,10 +33,12 @@ export default async function page() {
         <h3 className="font-bold mb-8">Learners</h3>
         <div className="flex gap-8 mb-8">
           <SearchBar placeholder="Search Leaner" />
-          <Link href="/admin/learners/create-learner" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create learner</Link>
+          {/* <Link href="/admin/learners/create-learner" className="w-[200px] text-center py-2 text-white font-bold bg-primary">Create learner</Link> */}
         </div>
         <Table learners={learners} />
         {/* <DataTable columns={columns} data={data} /> */}
       </div>
     </div>
 )}
+
+

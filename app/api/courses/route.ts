@@ -1,14 +1,34 @@
-import { PrismaClient } from '@prisma/client';
+import { createClient } from "@/utils/supabase/server";
 
-const prisma = new PrismaClient();
-
-export async function GET(req: Request) {
+export async function POST(req: Request) {
     try {
-        const courses = await prisma.course.findMany();
-        console.log(courses);
-        return new Response(JSON.stringify(courses), { status: 200 });
-    } catch (error) {
-        console.error(error);
-        return new Response('Internal Server Error', { status: 500 });
+        const body = await req.json();
+
+        const { email, password } = body;
+
+        const supabase = await createClient();
+
+        const { data, error } = await supabase.auth.signInWithPassword({email: email, password: password})
+
+        if (error) {
+            console.error('Supabase error:', error.message);
+            return new Response(JSON.stringify({
+                success: false,
+                message: error.message
+            }), { status: 400 });
+        }
+
+        return new Response(JSON.stringify({
+            success: true,
+            message: 'Login successful',
+            user: data.user
+        }), { status: 200 });
+
+    } catch (err: any) {
+        console.error('Server error:', err);
+        return new Response(JSON.stringify({
+            success: false,
+            message: 'Internal server error'
+        }), { status: 500 });
     }
 }
