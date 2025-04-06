@@ -3,7 +3,7 @@ import { Mail, LockKeyhole, ChevronRight, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import SideBar from '../components/SideBar';
+import SideBar from '../../components/SideBar';
 
 export default function page() {
   return (

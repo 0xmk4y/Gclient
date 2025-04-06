@@ -18,6 +18,15 @@ export async function POST(req: Request) {
             }), { status: 400 });
         }
 
+        if (data && data.user.user_metadata.isAdmin){
+          return new Response(JSON.stringify({
+            success: true,
+            isAdmin: true,
+            message: 'Login successful',
+            user: data.user
+        }), { status: 200 });
+        }
+
         return new Response(JSON.stringify({
             success: true,
             message: 'Login successful',

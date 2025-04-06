@@ -47,7 +47,7 @@ export default function Page() {
                 throw new Error(errorData.message || 'Failed to sign up');
             }
 
-            router.push('/login'); 
+            router.push('/login');
         } catch (err: any) {
             setError("root", { message: err.message || "Error submitting form" });
         }
@@ -64,11 +64,18 @@ export default function Page() {
                         height={100}
                         width={100}
                     />
-                    <Link href={"/login"} className='text-primary md:text-white bg-white md:bg-primary px-4 py-2 font-bold hover:bg-gray-200 md:hover:bg-primary/80'>Log in<ChevronRight className='inline mb-1' size={16} /></Link>
+                    <Link href={"/login"} className='text-primary md:text-white bg-white md:bg-primary px-4 py-2 font-bold hover:bg-gray-200 md:hover:bg-primary/80 rounded-md'>Log in<ChevronRight className='inline mb-1' size={16} /></Link>
                 </div>
                 <div className='flex flex-col justify-center items-center w-full'>
-                    <h3 className='font-bold text-white md:text-black text-[27px] mb-14 w-full text-center p-2'>Register to get started</h3>
-                    <form onSubmit={handleSubmit(signup)} className='text-sm w-full md:max-w-[500px] p-3 bg-white text-gray-400'>
+                    <Image
+                        src={'/gclient.svg'}
+                        alt='Company Logo'
+                        height={200}
+                        width={200}
+                        className='mb-8 hidden md:block'
+                    />
+                    <h3 className='font-bold text-white md:text-black text-[27px] mb-4 w-full text-center p-2'>Register to get started</h3>
+                    <form onSubmit={handleSubmit(signup)} className='text-sm w-full md:max-w-[500px] p-3 bg-white text-gray-400 py-8 rounded-md mb-8'>
                         <div className='flex flex-col md:flex-row gap-2 mb-4'>
                             <div className=''>
                                 <div className='flex flex items-center border dark:border-gray-500 border-b-2 border-b-primary bg-gray-100'>
@@ -138,16 +145,12 @@ export default function Page() {
 
                         <div className='w-full'>
                             <Button type='submit' className='bg-primary text-white py-2 px-4 mt-4 w-full'>
-                                Create account
+                            {isSubmitting ? 'Loading..' : 'Create account'}
                                 <ChevronRight className='inline ml-2' size={16} />
                             </Button>
                         </div>
                     </form>
 
-                </div>
-                <div className='text-center mt-6 text-sm'>
-                    <p>By confirming your email, you agree to our Terms of Service</p>
-                    <p>and that you have read and understood our Privacy Policy</p>
                 </div>
             </div>
         </div>

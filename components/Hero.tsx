@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Button } from './ui/button'
+import Link from 'next/link'
 
 export default function Hero() {
   return (
@@ -11,7 +12,8 @@ export default function Hero() {
               Industry-Leading Courses!</h1>
               <p>"Join thousands of learners gaining real-world skills and advancing their careers. Our expert-led courses are designed to empower you to succeed."</p>
               <div className='w-full flex justify-center md:justify-start mt-4'>
-                  <Button variant={"outline"} className='rounded-sm'>Get Started</Button>
+                  {/* <Button variant={"outline"}>Get Started</Button> */}
+                  <Link href={'/signup'} className='rounded-sm border px-8 py-2 rounded-md'>Get Started</Link>
 
               </div>
           </div>

@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/app/utils/supabase/client";
 import { Eye, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Learner } from "@/types/types";
-import DeleteModal from "./DeleteModal";
 
 import {
   AlertDialog,

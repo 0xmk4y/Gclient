@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Invoice } from "@/types/types";
-import DeleteModal from "./DeleteModal";
 import { createClient } from "@/app/utils/supabase/client";
 import {
   Check,

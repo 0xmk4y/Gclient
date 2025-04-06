@@ -1,7 +1,7 @@
 import React from 'react'
 import { Mail, LockKeyhole, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import SideBar from '../components/SideBar';
+import SideBar from '../../components/SideBar';
 
 export default function page() {
   return (

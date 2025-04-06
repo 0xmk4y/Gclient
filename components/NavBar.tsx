@@ -31,16 +31,23 @@ export default function NavBar() {
                     />
                     <div className='flex gap-4'>
                         <Link href={"#home"} scroll={false} legacyBehavior>
-                            <div onClick={(e) => {
+                            <div 
+                            className='cursor-pointer hover:underline' 
+                            onClick={(e) => {
                                 e.preventDefault();
                                 document.querySelector('#home')?.scrollIntoView({ behavior: 'smooth' });
                             }}>Home</div>
                         </Link>
-                        <Link href={"#courses"} scroll={false} legacyBehavior>
-                            <div onClick={(e) => {
-                                e.preventDefault();
-                                document.querySelector('#courses')?.scrollIntoView({ behavior: 'smooth' });
-                            }}>Courses</div>
+                        <Link href={"#courses"} scroll={false} legacyBehavior className=''>
+                            <div 
+                                className='cursor-pointer hover:underline' 
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.querySelector('#courses')?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                            >
+                                Courses
+                            </div>
                         </Link>
                     </div>
                 </div>
